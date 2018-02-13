@@ -1,0 +1,135 @@
+class Apple{
+
+   field int x, y; // screen location of the square's top-left corner
+   field int size; // length of this square, in pixels
+   field int memAddress;
+   field int location;
+
+   /** Constructs a new square with a given location and size. */
+   constructor Apple new(int Ax, int Ay, int Asize) {
+      let x = Ax;
+      let y = Ay;
+      let size = Asize;
+      let memAddress = 0;
+      let location = 0;
+      do draw();
+      return this;
+   }
+
+   method int getx() {
+      return x;
+   }
+
+   method int gety() {
+      return y;
+   }
+
+   method void choseNewLocation() {
+      let x = 16 * Random.randRange(30);
+      let y = 16 * Random.randRange(14);
+      return ;
+   }
+
+   /** Disposes this square. */
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method void draw() {
+      let location = ( y/16 ) + (x / 16) ;
+      let memAddress = 16384+location;
+      do Memory.poke(memAddress+0, 0);
+      do Memory.poke(memAddress+32, 8192);
+      do Memory.poke(memAddress+64, 4108);
+      do Memory.poke(memAddress+96, 2546);
+      do Memory.poke(memAddress+128, 1570);
+      do Memory.poke(memAddress+160, 2626);
+      do Memory.poke(memAddress+192, 4482);
+      do Memory.poke(memAddress+224, 8450);
+      do Memory.poke(memAddress+256, 9730);
+      do Memory.poke(memAddress+288, 22530);
+      do Memory.poke(memAddress+320, 16388);
+      do Memory.poke(memAddress+352, 16392);
+      do Memory.poke(memAddress+384, 24584);
+      do Memory.poke(memAddress+416, 8240);
+      do Memory.poke(memAddress+448, 16352);
+      do Memory.poke(memAddress+480, 0);
+      return;
+    }
+
+   /** Erases the square from the screen. */
+   method void erase() {
+      do Screen.setColor(false);
+      do Screen.drawRectangle(x, y, x + size, y + size);
+      return;
+   }
+
+    /** Increments the square size by 2 pixels. */
+   method void incSize() {
+      if (((y + size) < 254) & ((x + size) < 510)) {
+         do erase();
+         let size = size + 2;
+         do draw();
+      }
+      return;
+   }
+
+   /** Decrements the square size by 2 pixels. */
+   method void decSize() {
+      if (size > 2) {
+         do erase();
+         let size = size - 2;
+         do draw();
+      }
+      return;
+   }
+
+   /** Moves the square up by 2 pixels. */
+   method void moveUp() {
+      if (y > 1) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, y, x + size, y + size);
+         let y = y - size;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y, x + size, y + size);
+      }
+      return;
+   }
+
+   /** Moves the square down by 2 pixels. */
+   method void moveDown() {
+      if ((y + size) < 240) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, y, x + size, y + size);
+         let y = y + size;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y, x + size, y + size);
+      }
+      return;
+   }
+
+   /** Moves the square left by 2 pixels. */
+   method void moveLeft() {
+      if (x > 1) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, y, x + size, y + size);
+         let x = x - size;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y, x + size, y + size);
+      }
+      return;
+   }
+
+   /** Moves the square right by 2 pixels. */
+   method void moveRight() {
+      if ((x + size ) < 496) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, y, x + size, y + size);
+         let x = x + size;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x , y, x + size, y + size);
+      }
+      return;
+   }
+}

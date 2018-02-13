@@ -1,0 +1,11 @@
+symbol table 是一個用來紀録，使用者定義的表，
+
+為什麼要這個呢，因為要這張表去對應，使用者觀點的symbol，
+
+以為memory觀點的 base address + index 的，這二個觀點。
+
+用以下二行，來說明，在括弧的裡面，是使用者定義的，
+
+括弧外的，則是memory角度，在看的東西。
+local 0 (p1)
+local 1 (p2)

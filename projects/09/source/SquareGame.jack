@@ -1,0 +1,215 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/Square/SquareGame.jack
+
+/**
+ * Implements the Square Dance game.
+ * This simple game allows the user to move a black square around
+ * the screen, and change the square's size during the movement.
+ * When the game starts, a square of 30 by 30 pixels is shown at the
+ * top-left corner of the screen. The user controls the square as follows.
+ * The 4 arrow keys are used to move the square up, down, left, and right.
+ * The 'z' and 'x' keys are used, respectively, to decrement and increment
+ * the square's size. The 'q' key is used to quit the game.
+ */
+
+class SquareGame {
+   field Square square; // the square of this game
+   field Square square2; // the square of this game
+   field int direction; // the square's current direction:
+   field Array recordx;
+   field Array recordy;
+   field Array booleanTable;
+   field boolean foodstat;
+   field int tailindex;
+   static int snakeX;
+   static int snakeY;
+   static int foodX;
+   static int foodY;
+   static int foodCount;
+   static int headIndex;
+   static int seedCount;
+                        // 0=none, 1=up, 2=down, 3=left, 4=right
+
+   /** Constructs a new Square Game. */
+   constructor SquareGame new() {
+      // Creates a 30 by 30 pixels square and positions it at the top-left
+      // of the screen.
+      var int initcount;
+      let initcount = 0;
+      let foodX = 16 * Random.randRange(32);
+      let foodY = 16 * Random.randRange(15);
+      let square = Square.new(0, 0, 16);
+      let square2 = Square.new(foodX, foodY, 15);
+      let recordx = Array.new(100);
+      let recordy = Array.new(100);
+      let booleanTable = Array.new(32*16);
+      let snakeX = square.getx();
+      let snakeY = square.gety();
+      let direction = 0;  // initial state is no movement
+      let foodCount = 0;
+      let tailindex = 0;
+      let headIndex = 98;
+      let seedCount = 0;
+      let foodstat = false;
+
+      while ( initcount < 100 ) {
+          let recordx[initcount] = 0;
+          let recordy[initcount] = 0;
+          let initcount = initcount + 1;
+      }
+
+      let initcount = 0;
+      while ( initcount < (32 * 16) ) {
+          let booleanTable[initcount] = false;
+          let initcount = initcount + 1;
+      }
+
+      return this;
+   }
+
+   method void draw( int x, int y ) {
+      do Screen.setColor(true);
+      do Screen.drawRectangle(x, y, x + 16 , y + 16 );
+      return;
+   }
+
+   method void disappear( int x, int y ) {
+      do Screen.setColor(false);
+      do Screen.drawRectangle(x, y, x + 16 , y + 16 );
+      return;
+   }
+
+   /** Disposes this game. */
+   method void dispose() {
+      do square.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Moves the square in the current direction. */
+   method void moveSquare() {
+      let snakeX = square.getx();
+      let snakeY = square.gety();
+      let foodX = square2.getx();
+      let foodY = square2.gety();
+      let foodstat = false;
+      let recordx[headIndex] = snakeX;
+      let recordy[headIndex] = snakeY;
+      do Random.setSeed( seedCount );
+
+      // Eat the food
+      if ( snakeX = foodX ) {
+          if ( snakeY = foodY ) {
+              let foodstat = true;
+          }
+      }
+
+      // where is the snake
+      if ( ~(direction = 0) ) {
+        let booleanTable[ (snakeX/16) + (snakeY * 2)] = true;
+      }
+
+      // draw a new food square
+      if ( ~foodstat ) { do square2.draw(); }
+      if ( foodstat) {
+          do square2.choseNewLocation();
+          do square2.draw();
+          let foodX = square2.getx();
+          let foodY = square2.gety();
+          let foodCount = foodCount + 1;
+      }
+
+      // Change direction and generate the seed by user
+      if (direction = 1) { do square.moveUp(); }
+      if (direction = 2) {
+          let seedCount = seedCount + 1;
+          do square.moveDown();
+      }
+      if (direction = 3) { do square.moveLeft(); }
+      if (direction = 4) {
+          let seedCount = seedCount + 1;
+          do square.moveRight();
+      }
+
+      let snakeX = square.getx();
+      let snakeY = square.gety();
+
+      // detect collison happens
+      if ( booleanTable[ (snakeX/16) + (snakeY * 2)] = true) {
+              do Output.moveCursor(12,26);
+              do Output.printString("Game is Over!!");
+              do Sys.halt();
+      }
+
+      // draw second square, and recovery the tail of sanke
+      if ( headIndex > -1) {
+          if ( foodCount > 0){
+              do draw( recordx[headIndex], recordy[headIndex]);
+              let tailindex = 0;
+              let tailindex = headIndex-foodCount;
+
+              if ( tailindex > -1) {
+                  do disappear( recordx[tailindex] , recordy[tailindex]);
+                  let booleanTable[recordx[tailindex]/16 + (recordy[tailindex] * 2)] = false;
+              }
+
+              if ( tailindex < 0) {
+                  let tailindex = 99 + tailindex + 1;
+                  do disappear( recordx[tailindex] , recordy[tailindex]);
+                  let booleanTable[recordx[tailindex]/16 + (recordy[tailindex] * 2)] = false;
+              }
+          }
+
+          if ( foodCount = 0){
+              let booleanTable[recordx[headIndex]/16 + ( recordy[headIndex] * 2) ] = false;
+          }
+
+      }
+
+      // turning back to track the path
+      let headIndex = headIndex + 1;
+      if ( headIndex > 99) {
+         let headIndex = 0;
+      }
+
+      do Sys.wait(90);  // delays the next movement
+      return;
+   }
+
+
+   /** Runs the game: handles the user's inputs and moves the square accordingly */
+   method void run() {
+      var char key;  // the key currently pressed by the user
+      var boolean exit;
+      //var Square apple;
+      let exit = false;
+
+      while (~exit) {
+         // waits for a key to be pressed
+         while (key = 0) {
+            let key = Keyboard.keyPressed();
+            do moveSquare();
+         }
+
+         if (key = 81)  { let exit = true; }     // q key
+         if (key = 90)  { do square.decSize(); } // z key
+         if (key = 88)  { do square.incSize(); } // x key
+         if (key = 131) { let direction = 1; }   // up arrow
+         if (key = 133) { let direction = 2; }   // down arrow
+         if (key = 130) { let direction = 3; }   // left arrow
+         if (key = 132) { let direction = 4; }   // right arrow
+
+         // waits for the key to be released
+         while (~(key = 0)) {
+            let key = Keyboard.keyPressed();
+            do moveSquare();
+         }
+     } // while
+     return;
+   }
+}
+
+
+

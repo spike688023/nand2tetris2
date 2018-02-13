@@ -1,0 +1,76 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux8Way16.hdl
+
+/**
+ * 8-way 16-bit multiplexor:
+ * out = a if sel == 000
+ *       b if sel == 001
+ *       c if sel == 010
+ *       d if sel == 011
+ *       e if sel == 100
+ *       f if sel == 101
+ *       g if sel == 110
+ *       h if sel == 111
+ */
+
+CHIP Mux8Way16 {
+    IN a[16], b[16], c[16], d[16],
+       e[16], f[16], g[16], h[16],
+       sel[3];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    Mux16 ( a=false, b=true, sel=sel[0] ,out=outs0);
+    Mux16 ( a=false, b=true, sel=sel[1] ,out=outs1);
+    Mux16 ( a=false, b=true, sel=sel[2] ,out=outs2);
+
+    Not16 (in=outs0, out=outs0not);
+    Not16 (in=outs1, out=outs1not);
+    Not16 (in=outs2, out=outs2not);
+
+    And16 ( a=outs0not, b=outs1not, out=phasea);
+    And16 ( a=phasea, b=outs2not, out=phaseA);
+
+    And16 ( a=outs0, b=outs1not, out=phaseb);
+    And16 ( a=phaseb, b=outs2not, out=phaseB);
+
+    And16 ( a=outs0not, b=outs1, out=phasec);
+    And16 ( a=phasec, b=outs2not, out=phaseC);
+
+    And16 ( a=outs0, b=outs1, out=phased);
+    And16 ( a=phased, b=outs2not, out=phaseD);
+
+    And16 ( a=outs0not, b=outs1not, out=phasee);
+    And16 ( a=phasee, b=outs2, out=phaseE);
+
+    And16 ( a=outs0, b=outs1not, out=phasef);
+    And16 ( a=phasef, b=outs2, out=phaseF);
+
+    And16 ( a=outs0not, b=outs1, out=phaseg);
+    And16 ( a=phaseg, b=outs2, out=phaseG);
+
+    And16 ( a=outs0, b=outs1, out=phaseh);
+    And16 ( a=phaseh, b=outs2, out=phaseH);
+
+
+    And16 ( a=a, b=phaseA, out=caseA);
+    And16 ( a=b, b=phaseB, out=caseB);
+    And16 ( a=c, b=phaseC, out=caseC);
+    And16 ( a=d, b=phaseD, out=caseD);
+    And16 ( a=e, b=phaseE, out=caseE);
+    And16 ( a=f, b=phaseF, out=caseF);
+    And16 ( a=g, b=phaseG, out=caseG);
+    And16 ( a=h, b=phaseH, out=caseH);
+
+
+    Or16 ( a=caseA, b=caseB, out=result0);
+    Or16 ( a=caseC, b=caseD, out=result1);
+    Or16 ( a=caseE, b=caseF, out=result2);
+    Or16 ( a=caseG, b=caseH, out=result3);
+    Or16 ( a=result0, b=result1, out=result4);
+    Or16 ( a=result2, b=result3, out=result5);
+    Or16 ( a=result4, b=result5, out=out);
+}

@@ -1,0 +1,88 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/PC.hdl
+
+/**
+ * A 16-bit counter with load and reset control bits.
+ * if      (reset[t] == 1) out[t+1] = 0
+ * else if (load[t] == 1)  out[t+1] = in[t]
+ * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
+ * else                    out[t+1] = out[t]
+ */
+
+CHIP PC {
+    IN in[16],load,inc,reset;
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    Mux ( a=outIn0, b=in[0], sel=load, out=pre0);
+    Mux ( a=pre0, b=false, sel=reset, out=t0);
+    DFF ( in=t0 , out=out0, out=out[0]);
+
+    Mux ( a=outIn1, b=in[1], sel=load, out=pre1);
+    Mux ( a=pre1, b=false, sel=reset, out=t1);
+    DFF ( in=t1 , out=out1, out=out[1]);
+
+    Mux ( a=outIn2, b=in[2], sel=load, out=pre2);
+    Mux ( a=pre2, b=false, sel=reset, out=t2);
+    DFF ( in=t2 , out=out2, out=out[2]);
+
+    Mux ( a=outIn3, b=in[3], sel=load, out=pre3);
+    Mux ( a=pre3, b=false, sel=reset, out=t3);
+    DFF ( in=t3, out=out3, out=out[3]);
+
+    Mux ( a=outIn4, b=in[4], sel=load, out=pre4);
+    Mux ( a=pre4, b=false, sel=reset, out=t4);
+    DFF ( in=t4 , out=out4, out=out[4]);
+
+    Mux ( a=outIn5, b=in[5], sel=load, out=pre5);
+    Mux ( a=pre5, b=false, sel=reset, out=t5);
+    DFF ( in=t5 , out=out5, out=out[5]);
+
+    Mux ( a=outIn6, b=in[6], sel=load, out=pre6);
+    Mux ( a=pre6, b=false, sel=reset, out=t6);
+    DFF ( in=t6 , out=out6, out=out[6]);
+
+    Mux ( a=outIn7, b=in[7], sel=load, out=pre7);
+    Mux ( a=pre7, b=false, sel=reset, out=t7);
+    DFF ( in=t7 , out=out7, out=out[7]);
+
+    Mux ( a=outIn8, b=in[8], sel=load, out=pre8);
+    Mux ( a=pre8, b=false, sel=reset, out=t8);
+    DFF ( in=t8 , out=out8, out=out[8]);
+
+    Mux ( a=outIn9, b=in[9], sel=load, out=pre9);
+    Mux ( a=pre9, b=false, sel=reset, out=t9);
+    DFF ( in=t9 , out=out9, out=out[9]);
+
+    Mux ( a=outIn10, b=in[10], sel=load, out=pre10);
+    Mux ( a=pre10, b=false, sel=reset, out=t10);
+    DFF ( in=t10 , out=out10, out=out[10]);
+
+    Mux ( a=outIn11, b=in[11], sel=load, out=pre11);
+    Mux ( a=pre11, b=false, sel=reset, out=t11);
+    DFF ( in=t11 , out=out11, out=out[11]);
+
+    Mux ( a=outIn12, b=in[12], sel=load, out=pre12);
+    Mux ( a=pre12, b=false, sel=reset, out=t12);
+    DFF ( in=t12 , out=out12, out=out[12]);
+
+    Mux ( a=outIn13, b=in[13], sel=load, out=pre13);
+    Mux ( a=pre13, b=false, sel=reset, out=t13);
+    DFF ( in=t13, out=out13, out=out[13]);
+
+    Mux ( a=outIn14, b=in[14], sel=load, out=pre14);
+    Mux ( a=pre14, b=false, sel=reset, out=t14);
+    DFF ( in=t14, out=out14, out=out[14]);
+
+    Mux ( a=outIn15, b=in[15], sel=load, out=pre15);
+    Mux ( a=pre15, b=false, sel=reset, out=t15);
+    DFF ( in=t15, out=out15, out=out[15]);
+
+    Inc16 ( in[0]=out0, in[1]=out1, in[2]=out2,in[3]=out3,in[4]=out4,in[5]=out5,in[6]=out6,in[7]=out7,in[8]=out8,in[9]=out9,in[10]=out10,in[11]=out11,in[12]=out12,in[13]=out13,in[14]=out14,in[15]=out15,out=Inc);
+
+    Mux16 ( a[0]=out0, a[1]=out1, a[2]=out2,a[3]=out3,a[4]=out4,a[5]=out5,a[6]=out6,a[7]=out7,a[8]=out8,a[9]=out9,a[10]=out10,a[11]=out11,a[12]=out12,a[13]=out13,a[14]=out14,a[15]=out15,b=Inc,sel=inc,out[0]=outIn0, out[1]=outIn1, out[2]=outIn2,out[3]=outIn3,out[4]=outIn4,out[5]=outIn5,out[6]=outIn6,out[7]=outIn7,out[8]=outIn8,out[9]=outIn9,out[10]=outIn10,out[11]=outIn11,out[12]=outIn12,out[13]=outIn13,out[14]=outIn14,out[15]=outIn15);
+
+}

@@ -1,0 +1,5 @@
+push constant 31
+push constant 3
+and
+neg
+neg

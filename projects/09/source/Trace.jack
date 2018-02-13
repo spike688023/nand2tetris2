@@ -1,0 +1,17 @@
+class Trace{
+
+   field int x, y; // screen location of the square's top-left corner
+
+   constructor Trace new(int Ax, int Ay) {
+      let x = Ax;
+      let y = Ay;
+      return this;
+   }
+
+   method int setLocation( int Ax, int Ay ) {
+      let x = Ax;
+      let y = Ay;
+      return x;
+   }
+
+}
