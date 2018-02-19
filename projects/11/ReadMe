@@ -9,3 +9,316 @@ symbol table 是一個用來紀録，使用者定義的表，
 括弧外的，則是memory角度，在看的東西。
 local 0 (p1)
 local 1 (p2)
+
+又了解 新東西了 ，在Jack langugae裡面，有field跟 static二個，
+
+雖然都算class level，但 static 是本來就有了，不用new object出來，
+
+而這裡要說的是，一個物件大小，其實只有計算它的 field， 算是object global的變數有幾個，
+
+而static 的，則不用算在一個object的大小中，這可以之後寫code驗證 ，也可以上網看看。
+
+
+原來，return的意思，是把計算好的東西，放到 memory的stack中，好像後面的指令去取用，
+
+如
+
+push 2
+push 3
+call Point.new
+pop p1
+
+主要是最後 的二行 ， call Point.new 會把初始化好了的值，放回stack中的最頂端，
+
+最後 pop到 p1 這個symbol table的值，讓它指像這個物件，p1就 等於是指向了，
+
+這個物件的base address ，用以去取用裡面的東西 。
+
+
+
+把object  push 進stack， object的大小，不重要，重要的是那個base address .
+
+class 跟variable的宣告，在 VM code上面，是不會產生code的 ，
+
+只是用來建立symbol table而已，真正會寫到VM code的是，真的有給值，以及，
+
+做運算的地方，才需 要寫code到VM CODE裡面。
+
+
+argument 0 是用來放 物件自已的，剩下的才是放其它的參數。
+
+掃class，只是為了建symbol table.
+
+即便是void method 也要產生symbol table ，因為，還是有傳入object.
+
+
+Symbol talbe就是要掃所有的identifier 出來。
+
+
+constructor 的實作，在memory中，是這樣的，
+
+藉由，os的function 給出一個base address，且依傳入的參數，判斷 要給 它幾個word的空間，
+
+Memory.allco(n) , 然後，到了constructor 的主體後， 把那幾個word的內容給填滿。
+
+
+symbol table是給我們看的， 用來查出，user觀點的變數，
+
+在memory那層，是用那個memory segment 跟index ,
+
+如，
+
+im = im * c
+
+=>  *(this + 1 ) = *(this +1 ) times (argument 0)
+
+
+this 指標，用來指向 object的base address，
+
+假設 this 的index 2  是存這個物件的 radius ，要如何更改這個值呢，
+
+把要改的值，push 到 stack 中，
+
+再執行   pop this 2   ,就 完成了， pop  會把 stack最面上面的值，拿來蓋到，
+
+這個object的  index 2 的值。
+
+再來想一下，static的變數，之前在實作時，因為static 在各個class中，是唯一的，
+
+所以在變數的取名，會在前面加個className ， 當時這裡的實作， 就有點symbol table的感覺了.
+
+method calls:
+
+物件導向，只是在user端，用不同的表現手法，
+
+到compiler那層，還是要回歸 procedual 的本質。
+
+x.mult(5)  = > mult(x,5)
+
+push x
+push 5
+call mult
+
+這裡又有一點，要拿想一想，這裡  mult 的function call , label的實作，
+
+在virtual machine，要實作嗎， 還是不用，  那是下一層要做的。
+
+
+Array declaration / construction :
+
+這裡指的是 陣列的宣告， 這感覺，應該 是 object 的生成是一樣的，
+
+要用到 Memory.alloc(n) 這個function , 這是屬於 OS 會提供給 我們用的function，
+
+也就是在最後一個module會實作的function之一，但現在呢， 只要會用就 好了，
+
+bar =  new int(n)
+
+=>  bar =  Memory.alloc(n)
+
+
+Handling arrays: accessing an array entry by its index
+
+How to compile bark[k] = 19
+
+要先從 memory的角度來看， *( bar + k ) = 19
+
+這裡呢， 要教的是 ，用that  指標，來存取 array ,
+
+要參考pdf  第16 頁比較 清楚 。
+
+主要呢， 指向 *( bar + k ) 這個位置 是用 that 這個指標。
+
+其它的概念就 沒什麼變了。
+
+Handling expressions:
+
+這裡，直接看pdf 17頁，會講實作的Logic.
+
+Hanlding Program flow:
+
+這裡介紹 的program flow 主要是講 ， if else 跟 while，
+
+這裡要注意的是，  flow , 要跳轉過去的那個condition ,
+
+值是> 0   = 0 < 0 才要跳 轉 ，這要弄清楚 。
+
+
+VM 轉 asm 的那個project ，我記得是， 把folder下的所有vm files，
+
+都合併成一個asm file ，而這個檔的檔名，是取其所在的 folder，
+
+Jack是仿Java的 ，每個class 都可以有main func ，但執行 那一個，
+
+取決於，作者compiler參數是跑那一個, 突然想到， 程式放到memory中，
+
+要怎麼知道，asm 檔，要從那一行開始跑，而那一行 ，是main func ,
+
+因為會設置 program counter ，會指向 main func 的那一行 。
+
+
+看來，這個project，要做的是，把對應的compilexxx ，給填入相對應的code，
+
+放到VM file就可以了。
+
+這裡 來考慮一個東西，就是do statement的傳入參數，像是  Output.printInt 這個Jack內建的，
+
+我們就 可以查api 去看，它的參數都是傳入幾個，如果沒有api，就要去看參數的區塊，
+
+看有沒有逗號 ，去判斷 ， 有幾個參數要放傳進去。
+
+function void printInt(int i):  好，只有一個參數。
+
+不能用查api的，還是要用逗號去判斷 。
+
+
+這裡來想一下，symbolTable 要怎麼建，
+
+首先，第一張表，一定是跟class有關的，這張表也不會被刪了，
+
+而其它的 method進去的表，就會有刪減，我要用個list來存 symbol table，
+
+第一張是class的，第二張就看現在跑到那個function囉。
+
+突然有個問題 ， 各個memory segment 都有指標 ，指向一個base address，
+
+以argument為例， 每個index 存的資料型態也不一樣， 可能有int， char ，
+
+或class type，  假設現在的index 是4 ，
+
+要如何算到 index 4 的address ， 就 是把前面所有index的 data type 大小全部加起來，
+
+就會是index 4 的address了。
+
+
+雖然，symbolTables 會是一個list的 table，而且，只能看自已那一張，
+
+以及最上層那張，但還是會全部串起來，只要知道那幾張是自已要看的，就可以了。
+
+
+
+這次的作頁 ，要能夠，了解 vm files，才能清楚的知道，
+
+高階的 jack language , 要怎麼轉下去，可以去參考 project 8 的程式，
+
+看懂了以後 ，再來看看，要一步步怎麼實作。
+
+
+來回想一下 project 8 在memroy中的指標設定，
+
+程式開始前會先設定， 五個指標， sp = stack pointer ,
+
+argument , local , this , that ,
+
+local 跟 sp 一開始都會指向同一個 memory address，
+
+而 argument  的指標會在 sp address 的前面，
+
+所 以  function name 2  , 最後 的一個參數，代表的是，這個function  會用到幾個，
+
+local variable.
+
+function g nVars  //  here starts a function called g ,
+                  //  which has nVars local variable
+
+call g nArgs     //  invoke function g for its effect;
+                 // nArgs arguments have already been pushed onto the stack
+
+project 8 的，很多程 式， 會先把要的值，放到指定的位置 ，
+
+如 push local 0
+   push local 1  , VMEmulator ，會先把這二個位置 的值給 設定起來，
+
+我們就 能值接取用。
+
+
+現在呢， local 0 跟 local 1的值，我們要自已填進去，
+
+填值進去， 要怎麼做， 把要放進去的值，push  到 stack 中，
+
+再pop 回去要的memroy segment .
+
+
+看project 8  pdf 檔的 第17頁， 可以知道，在stack pointer 的memroy中，
+
+主要就三個pointer , 是一個function執行 時，最重要的三個指標，
+
+sp , LCL, ARG ,
+
+投影 片的圖很清楚 ， caller 在call  其它function之前，
+
+會先 把要用到的 參數， 用ARG 指向， 接下來則是把自已的狀態給紀録下來，
+
+好在，callee 執行 完後  ， 回來能夠回復 之前的狀態，
+
+接下來的第三個區塊，則是 LCL , 一樣放好參數後，就是 sp pointer，
+
+指向空的，讓檔下的function可以用，
+
+儲存一個function的state 要五個空間，
+
+returnAddress , LCL , ARG , this , that ,
+
+而  returnAdress，這個值是給 pc = program counter用的，
+
+指向 Vm file的程式行 數， 方便在執行 完後 ， 回來接著做。
+
+
+project 8 的 pdf 18 頁， 突然有一段   *ARG = pop  看不懂，
+
+這裡呢，其實它是把 callee 計算完的值，放到*ARG ，因為，
+
+返迴到 caller後 ，會用到這個值， 而stack pointer則是在
+
+ARG + 1的位置 。
+
+
+接下來，再想個東西，就 是   Vm 跟 asm 檔，都有 flow control，
+
+程式執行 位置 的跳轉 ，用的是 label ，不同階段的程 式碼 ，
+
+總長度不一樣，  所 以一樣的label，所 在的行數也是不一樣的。
+
+
+當一個function 被call ,  LCL ARG THIS 這四個指標都會指向相對的位置 ，
+
+在VM 這層，要做的只有 ，把ARG都push到memory 中，
+
+後下LCL的值跟 其它指標，是 VMTranslator 那層會做，
+
+that 是用來處理 array ，會在  function body中出現，
+
+不會在symbol table中出現，
+
+
+作者在 ConvertBin , 在 do function() ，後 ，都會放pop temp 0 ，
+
+應該 是因為回傳值， 但這個function不需要用到回傳值，所以 丟到垃圾桶。
+
+
+project 11 ，這次要做的，就是一行 行 的code , 直譯 轉成 Virtual machine code ，
+
+因為真正執 行 的program counter ，是下一層才要處理的.
+
+
+let value = Memory.peek(8000);  在virtual machine中的，執行順序，
+
+是由右至左的。
+
+function call 裡的 let , 是用來把值放到 LCL 指向的memory segment.
+
+
+今天又遇到一個東西，就是在 memory中，要怎麼表示 True , False,
+
+全部都是0  是 False ，就 是push 個constant 0 進去 memory 就可以了，
+
+如果是 True ，多個not  在後面就可以了。
+
+
+接下來， 要寫 label WHILE_EXP0 這個  while loop ，
+
+由後面的0  可以看出，是有編號 的， 這個編號 ，是用在 同個 function call 裡面，
+
+如果是在不同function內的話 ，count 可以都從 0 開始，不會影響 。
+
+

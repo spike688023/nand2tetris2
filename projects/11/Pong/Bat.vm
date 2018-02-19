@@ -1,0 +1,83 @@
+push constant 2
+call show 0
+function Bat.dispose 0
+call Memory.deAlloc 1
+pop temp 0 
+push constant 0 
+return
+function Bat.show 0
+call Screen.setColor 1
+call draw 0
+pop temp 0 
+push constant 0 
+return
+function Bat.hide 0
+call Screen.setColor 1
+call draw 0
+pop temp 0 
+push constant 0 
+return
+function Bat.draw 0
+add
+add
+call Screen.drawRectangle 4
+pop temp 0 
+push constant 0 
+return
+pop temp 0 
+push constant 0 
+return
+function Bat.getLeft 0
+function Bat.getRight 0
+add
+call hide 0
+call show 0
+pop temp 0 
+push constant 0 
+return
+function Bat.move 0
+push constant 1
+test
+push constant 4
+sub
+push constant 0
+test
+push constant 0
+call Screen.setColor 1
+add
+push constant 1
+add
+add
+push constant 4
+add
+add
+call Screen.drawRectangle 4
+call Screen.setColor 1
+push constant 3
+add
+add
+call Screen.drawRectangle 4
+push constant 4
+add
+add
+push constant 511
+test
+push constant 511
+sub
+call Screen.setColor 1
+push constant 4
+sub
+push constant 1
+sub
+add
+call Screen.drawRectangle 4
+call Screen.setColor 1
+add
+push constant 3
+sub
+add
+add
+call Screen.drawRectangle 4
+pop temp 0 
+push constant 0 
+return

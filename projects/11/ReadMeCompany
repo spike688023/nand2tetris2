@@ -1,0 +1,53 @@
+現在要開始，去寫 project 11
+
+
+
+這裡是要從jack language 轉成 virtual machine (VM code)，
+
+
+
+每個階段，主要負責的東西，都不一樣，　像是VM code　往下轉成 machine code，
+
+
+
+重點在　8種指標，在不同的function call ，　要指向不同位置的stack ，
+
+
+
+用以指向，不同的值，達到不同的function，能切換到它的狀態，　主要會變的指標，
+
+
+
+應該是，　local 跟argument，　這二個。
+
+
+
+而上一層的 jack language 轉到virtual machine，要做的事，則是把材料，放到相對應的地方，
+
+
+
+不同變數或常數，　放到不同指標，以及不同的ＩＮＤＥＸ。
+
+
+
+一張symbol table，只要 type 跟kind一樣，在相同的scope，
+
+
+
+就能index++.
+
+
+
+不同scope紀録不同的表，然後用List去記。
+
+
+
+之前不了解，　
+
+
+
+為什麼，要有一個field的宣告，它這個是，object的全域變數，
+
+
+
+跟static這種class　level的全域變數是不同。

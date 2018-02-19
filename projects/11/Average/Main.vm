@@ -1,0 +1,18 @@
+function Main.main 0
+push How many numbers? 
+call .readInt 1
+call .new 1
+push constant 0
+test
+push Enter a number: 
+call .readInt 1
+add
+push constant 1
+add
+push The average is 
+call Output.printString 1
+call Math.divide 2
+call Output.printInt 1
+pop temp 0 
+push constant 0 
+return
