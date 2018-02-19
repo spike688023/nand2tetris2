@@ -322,3 +322,108 @@ function call 裡的 let , 是用來把值放到 LCL 指向的memory segment.
 如果是在不同function內的話 ，count 可以都從 0 開始，不會影響 。
 
 
+這裡，要開始，實作 Square Dance :
+
+ 11         var SquareGame game;
+ 12         let game = SquareGame.new();
+ 13         do game.run();
+ 14         do game.dispose();
+
+先來講  function call ，這裡有二種 ，一是用Class去呼叫的function ，
+
+用class 去call 的 function ， 因為不是物件，所以，argument的參數數目，
+
+不會多加1，而是有多少，算多少。
+
+所以  SquareGame.new()  =>  call SquareGame.new 0
+
+game.dispose()  =>  因為game 是物件，其實它是參數， 所以這種 用object  call的fucntion
+               =>  有二點要注意，一是參數要多加1  就是 game
+
+               => 另一個就是 要把 game 改成它的class Name，
+
+               => call SquareGame.dispose 1
+
+所謂的function call ，只是 把要的arguemnt 參數放到 stack中， 再把program counter，
+
+指向那個function定義 的位置  ，到這裡就 可以知道，內部會用到的local varialbe的數目，
+
+藉以在stack 留下local varialbe的空間數目。
+
+
+接下來，要實作的是constructor  , constructor要做的就 是做出一個物件，
+
+也就是用 this 指標，去指向這個物件的base address ，不同的index 指向不同的物件，
+
+要先配出一個空間給 這個物件用，所 以要用到OS 的function，
+
+push constant 3
+call Memory.alloc 1
+pop pointer 0
+
+很明顥的，這二行 ， 是要os 配出三個word的空間給 這個物 件用，
+
+再把 address 丟給  this 指標去用。
+
+要知道物 件的大小，要去第一張symbol table，看field這個類型的資料，
+
+pointer 這個指標，是為了方便，把值丟到  this 跟that 指標。
+
+要把值寫到 object中，就 要用之前的this  指標了。
+
+還有一點 ，當你要把一個物件丟給 別人用，就 要用push pointer 0, 把this 的base address交出去，
+
+而不是push this 0 , 這個交出去的是this 指向的物件的，第一個屬性.
+
+  9 class Square {
+ 10
+ 11    field int x, y; // screen location of the square's top-left corner
+ 12    field int size; // length of this square, in pixels
+ 13
+ 14    /** Constructs a new square with a given location and size. */
+ 15    constructor Square new(int Ax, int Ay, int Asize) {
+ 16       let x = Ax;
+ 17       let y = Ay;
+ 18       let size = Asize;
+ 19       do draw();
+ 20       return this;
+ 21    }
+
+
+在 class中的function 種類 有二種 ，一是constructor，二是 method，
+
+method是用來，操做object的，所以都要傳入 this 指標，
+
+而method的function name，是簡寫， 不完整 的， 所以要加上，
+
+class Name.
+
+
+這麼說來， 完整 的function Name 跟 symbol Table Name是差不多的，
+
+要說有差別， 只會差在  中間連接的符號 ， 我的table  是用下底線 ，
+
+function call 則是用 dot .
+
+
+下面的code 是為了切換 this 指標，讓 this 指標，指向我們要操作的object，
+
+
+   16 function Square.dispose 0
+   17 push argument 0
+   18 pop pointer 0
+
+哎丫 ， function 的keyword ，  有二種哎， 一個是method ，一個是function，
+
+function 可以看是 class level ，不會用到 this ，object 的東西，
+
+而method 則是會用到，所以進去  function call 的第一件事， 是更改 this 指標，
+
+指向的object.
+
+也就 是keyword 是function or method ，會影響 到，symbol table.
+
+
+field 這個keyword ，是用來，讓我們區別，它是所有變數加起來的大小，
+
+就 是這個物 件的總大小.

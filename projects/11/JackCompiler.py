@@ -5,9 +5,13 @@ opCommand = { '+':"add" , '*':"call Math.multiply 2" , '-':"sub", '/':"call Math
 
 
 def FindTable_And_MemorySegment( symbolTables , fileVm, tableName, action, LocalVariable):
+    fount = False
     for i in symbolTables:
         if i.GetTableName() == tableName:
-            fileVm.write( action + " " +  i.KindOf(LocalVariable) + ' ' + str(i.IndexOf(LocalVariable) ) + "\n")
+            if i.KindOf(LocalVariable) != "nothing":
+                fileVm.write( action + " " +  i.KindOf(LocalVariable) + ' ' + str(i.IndexOf(LocalVariable) ) + "\n")
+            else:
+                fileVm.write( action + " this" + ' ' + str(symbolTables[0].IndexOf(LocalVariable) ) + "\n")
             break
 
 def RemoveComments( OriginFile ):
@@ -258,6 +262,7 @@ class CompilationEngine():
         self.symbolTables = []
         self.whileCount = -1
         self.ifCount = -1
+        self.functionType = ""
 
     def GetCurrentTableName(self):
         return self.currentClassName + '_' + self.currentFunctionName
@@ -367,6 +372,12 @@ class CompilationEngine():
 
         # constructor, function, method
         self.writePattern( self.tokenizer.tokenType(), self.tokenizer.keyWord() , level)
+        self.functionType = self.tokenizer.keyWord()
+
+        # "this" is the fist argument if type of function is method
+        if self.functionType == "method":
+            self.symbolTables[-1].define( "this", self.currentClassName , "argument")
+
         # ('void' | type)
         self.tokenizer.advance()
         if self.tokenizer.keyWord() in [ "int", "char", "boolean", "void"]:
@@ -399,6 +410,7 @@ class CompilationEngine():
         # ')'
         self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
 
+
         #  subroutineBody = '{' varDec* statements '}'
         self.file.write( ( ' ' * level * 2) + "<subroutineBody>" + "\n")
         #  '{'
@@ -412,6 +424,16 @@ class CompilationEngine():
             self.tokenizer.advance()
 
         self.fileVm.write( "function " + self.currentClassName + '.' +  self.currentFunctionName + ' ' + str(self.symbolTables[-1].GetVarCount("local") + 1) + "\n")
+
+        # check the first symbol table to get how many field variables
+        if self.functionType  == "constructor":
+            self.fileVm.write( "push constant " + str(self.symbolTables[0].GetVarCount("field") + 1) + "\n")
+            self.fileVm.write( "call Memory.alloc 1" + "\n")
+            self.fileVm.write( "pop pointer 0" + "\n")
+        elif self.functionType  == "method":
+            self.fileVm.write( "push argument 0" + "\n")
+            self.fileVm.write( "pop pointer 0" + "\n")
+
         # statements
         self.tokenizer.backOneToken()
         self.resetStatementsCount()
@@ -423,6 +445,8 @@ class CompilationEngine():
 
         level = level - 1
         self.file.write( ( ' ' * level * 2) + "</subroutineDec>" + "\n")
+
+
 
     #  parameterList = ( (type varName) (',' type varName)*)?
     def compileParameterList(self, level):
@@ -472,8 +496,6 @@ class CompilationEngine():
 
         level = level - 1
         self.file.write( ( ' ' * level * 2) + "</parameterList>" + "\n")
-        # "this" is the last argument
-        self.symbolTables[-1].define( "this", self.currentClassName , kind)
 
     # varDec* = 'var' type varName ( ','varName)*';'
     def compileVarDec(self, level):
@@ -588,10 +610,6 @@ class CompilationEngine():
 
         # lookup in symbol tables
         FindTable_And_MemorySegment(self.symbolTables , self.fileVm , self.GetCurrentTableName() , "pop", LocalVariable)
-       #for i in self.symbolTables:
-       #    if i.KindOf(LocalVariable) != "nothing":
-       #        self.fileVm.write( "pop " +  i.KindOf(LocalVariable) + ' ' + str(i.IndexOf(LocalVariable) ) + "\n")
-       #        break
 
     def compileDo(self, level):
         self.file.write( ( ' ' * level * 2) + "<doStatement>" + "\n")
@@ -603,8 +621,20 @@ class CompilationEngine():
         # subroutinName
         self.tokenizer.advance()
         self.writePattern( self.tokenizer.tokenType(), self.tokenizer.identifier() , level)
+        # if this subroutineName , could find in symbol table,
+        # change the name
         self.dofunctionName = self.tokenizer.identifier()
+        # change object name to class name
+        if self.symbolTables[-1].VariableExistOrNot( self.dofunctionName ) :
+            self.fileVm.write( "push " +  self.symbolTables[-1].KindOf(self.dofunctionName) + ' ' + str(self.symbolTables[-1].IndexOf(self.dofunctionName) ) + "\n")
+            self.dofunctionName = self.symbolTables[-1].TypeOf(self.dofunctionName)
+            self.dofunctionParameterCount = self.dofunctionParameterCount + 1
+        elif self.symbolTables[0].VariableExistOrNot( self.dofunctionName ):
+            self.fileVm.write( "push " +  self.symbolTables[0].KindOf(self.dofunctionName) + ' ' + str(self.symbolTables[0].IndexOf(self.dofunctionName) ) + "\n")
+            self.dofunctionName = self.symbolTables[0].TypeOf(self.dofunctionName)
+            self.dofunctionParameterCount = self.dofunctionParameterCount + 1
 
+        # subroutineCall
         self.subroutineCall(level)
         self.dofunctionName = ""
         # pop out unnecessary data
@@ -707,12 +737,12 @@ class CompilationEngine():
         # '}'
         self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
 
-        self.fileVm.write( "goto IF_END" + str(ifCount) + "\n")
-        self.fileVm.write( "label IF_FALSE" + str(ifCount) + "\n")
 
         # ( 'else' '{' statements '}' )?
         self.tokenizer.advance()
         if self.tokenizer.keyWord() == "else":
+            self.fileVm.write( "goto IF_END" + str(ifCount) + "\n")
+            self.fileVm.write( "label IF_FALSE" + str(ifCount) + "\n")
             self.writePattern( self.tokenizer.tokenType(), self.tokenizer.keyWord() , level)
             # '{'
             self.tokenizer.advance()
@@ -724,6 +754,7 @@ class CompilationEngine():
             self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
             self.fileVm.write( "label IF_END" + str(ifCount) + "\n")
         else:
+            self.fileVm.write( "label IF_FALSE" + str(ifCount) + "\n")
             self.tokenizer.backOneToken()
 
         level = level - 1
@@ -778,9 +809,9 @@ class CompilationEngine():
             elif self.tokenizer.keyWord() == "false":
                 self.fileVm.write( "push constant 0" + "\n")
             elif self.tokenizer.keyWord() == "null":
-                pass
+                self.fileVm.write( "push constant 0" + "\n")
             elif self.tokenizer.keyWord() == "this":
-                pass
+                self.fileVm.write( "push pointer 0" + "\n")
 
 	    # keep while loop works fine
 	    self.tokenizer.advance()
@@ -814,11 +845,6 @@ class CompilationEngine():
 	    # varName
 	    else:
 	        FindTable_And_MemorySegment(self.symbolTables , self.fileVm , self.GetCurrentTableName() , "push", Name)
-               ## lookup in symbol tables
-               #for i in self.symbolTables:
-               #    if i.KindOf(Name) != "nothing":
-               #        self.fileVm.write( "push " +  i.KindOf(Name) + ' ' + str(i.IndexOf(Name) ) + "\n")
-               #        break
 
         # '(' expression ')'
         elif self.tokenizer.symbol() == '(':
@@ -847,77 +873,6 @@ class CompilationEngine():
 
         level = level - 1
         self.file.write( ( ' ' * level * 2) + "</expression>" + "\n")
-
-####def compileTerm(self, level):
-
-####    self.file.write( ( ' ' * level * 2) + "<term>" + "\n")
-####    self.tokenizer.advance()
-
-####    # integerConstant | stringConstant | keywordConstant
-####    if self.tokenizer.tokenType() in [ "integerConstant", "stringConstant" ]:
-####        if self.tokenizer.tokenType() ==  "integerConstant":
-####            self.writePattern( self.tokenizer.tokenType(), self.tokenizer.intVal() , level)
-####            self.fileVm.write( "push constant " + self.tokenizer.intVal() + "\n")
-####        elif self.tokenizer.tokenType() ==  "stringConstant":
-####            self.writePattern( self.tokenizer.tokenType(), self.tokenizer.stringVal() , level)
-####            self.fileVm.write( "push " + self.tokenizer.stringVal() + "\n")
-####        # keep while loop works fine
-####        self.tokenizer.advance()
-
-####    # keywordConstant = true | false | null | this
-####    elif self.tokenizer.keyWord() in [ 'true', 'false', 'null', 'this']:
-####        self.writePattern( self.tokenizer.tokenType(), self.tokenizer.keyWord() , level)
-####        # keep while loop works fine
-####        self.tokenizer.advance()
-
-####    # varName | varName '[' expression ']' | subroutineCall
-####    elif self.tokenizer.tokenType() ==  "identifier" :
-####        # varName
-####        self.writePattern( self.tokenizer.tokenType(), self.tokenizer.identifier() , level)
-####        self.dofunctionName = self.tokenizer.identifier()
-
-####        self.tokenizer.advance()
-####        # '['
-####        if self.tokenizer.symbol() == '[' :
-####            self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
-####            # expression
-####            self.compileExpression(level)
-####            # ']'
-####            self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
-####            # keep while loop works fine
-####            self.tokenizer.advance()
-####        elif self.tokenizer.symbol() in [ "(", "." ]:
-####            # subroutineCall
-####            self.tokenizer.backOneToken()
-####            self.subroutineCall(level)
-####            # keep while loop works fine
-####            self.tokenizer.advance()
-
-####    # '(' expression ')'
-####    elif self.tokenizer.symbol() == '(':
-####        # '('
-####        self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
-####        # expression
-####        self.compileExpression(level)
-
-####        # ')'
-####	    self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
-
-####        # keep while loop works fine
-####        self.tokenizer.advance()
-####    # unaryOp term
-####    # not come to this condition twice
-####    elif self.tokenizer.symbol() in ['-','~']:
-####        # unaryOp
-####        self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
-####        currentOp = self.tokenizer.symbol()
-####        self.compileTerm(level)
-####        if currentOp == '-':
-####            self.fileVm.write( "neq" + "\n")
-####        elif currentOp == '~':
-####            self.fileVm.write( "not" + "\n")
-
-####    self.file.write( ( ' ' * level * 2) + "</term>" + "\n")
 
     def compileExpressionList(self, level):
         self.file.write( ( ' ' * level * 2) + "<expressionList>" + "\n")
@@ -951,6 +906,11 @@ class CompilationEngine():
         self.tokenizer.advance()
         if self.tokenizer.symbol() == '(':
             self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
+
+            #if self.functionType == "method":
+            self.fileVm.write( "push pointer 0" + "\n")
+            self.dofunctionParameterCount = self.dofunctionParameterCount + 1
+            self.dofunctionName = self.currentClassName + '.' + self.dofunctionName
             self.compileExpressionList(level)
 
             # ')'
@@ -1000,6 +960,12 @@ class SymbolTable():
     def GetVarCount(self, kind):
         return self.dict1[kind]
 
+    def VariableExistOrNot(self, name):
+        if name in self.dict2.keys():
+            return True
+        else:
+            return False
+
     def GetTableName(self):
         return self.tableName
 
@@ -1007,7 +973,10 @@ class SymbolTable():
     # Returns ( STATIC, FIELD, ARG, VAR)
     def KindOf(self, name):
         if name in self.dict2.keys():
-            return self.dict2[name][1]
+            if self.dict2[name][1] == "field":
+                return "this"
+            else:
+                return self.dict2[name][1]
         else:
             return "nothing"
 
