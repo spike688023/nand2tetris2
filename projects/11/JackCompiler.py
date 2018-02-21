@@ -785,6 +785,8 @@ class CompilationEngine():
 
     def compileTerm(self, level):
         Name = ""
+        charCounts = 0
+
         self.file.write( ( ' ' * level * 2) + "<term>" + "\n")
         self.tokenizer.advance()
 
@@ -795,7 +797,13 @@ class CompilationEngine():
                 self.fileVm.write( "push constant " + self.tokenizer.intVal() + "\n")
 	    elif self.tokenizer.tokenType() ==  "stringConstant":
 	        self.writePattern( self.tokenizer.tokenType(), self.tokenizer.stringVal() , level)
-                self.fileVm.write( "push " + self.tokenizer.stringVal() + "\n")
+
+	        charCounts = len(self.tokenizer.stringVal())
+
+                self.fileVm.write( "push constant " + charCounts + "\n")
+                self.fileVm.write( "call String.new 1" + "\n")
+                for i in self.tokenizer.stringVal():
+
 	    # keep while loop works fine
 	    self.tokenizer.advance()
 

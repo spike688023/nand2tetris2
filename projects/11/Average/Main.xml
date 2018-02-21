@@ -47,11 +47,11 @@
             <expression>
               <term>
               <stringConstant> How many numbers?  </stringConstant>
-              </term>
+            </expression>
             </expression>
           </expressionList>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -69,11 +69,11 @@
             <expression>
               <term>
               <identifier> length </identifier>
-              </term>
+            </expression>
             </expression>
           </expressionList>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -84,7 +84,7 @@
         <expression>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -94,11 +94,11 @@
         <expression>
           <term>
           <identifier> i </identifier>
-          </term>
+        </expression>
           <symbol> &lt; </symbol>
           <term>
           <identifier> length </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -110,7 +110,7 @@
             <expression>
               <term>
               <identifier> i </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ] </symbol>
             <symbol> = </symbol>
@@ -124,11 +124,11 @@
                 <expression>
                   <term>
                   <stringConstant> Enter a number:  </stringConstant>
-                  </term>
+                </expression>
                 </expression>
               </expressionList>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -139,7 +139,7 @@
             <expression>
               <term>
               <identifier> sum </identifier>
-              </term>
+            </expression>
               <symbol> + </symbol>
               <term>
               <identifier> a </identifier>
@@ -147,10 +147,10 @@
               <expression>
                 <term>
                 <identifier> i </identifier>
-                </term>
+              </expression>
               </expression>
               <symbol> ] </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -161,11 +161,11 @@
             <expression>
               <term>
               <identifier> i </identifier>
-              </term>
+            </expression>
               <symbol> + </symbol>
               <term>
               <integerConstant> 1 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -182,7 +182,7 @@
         <expression>
           <term>
           <stringConstant> The average is  </stringConstant>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -198,11 +198,11 @@
         <expression>
           <term>
           <identifier> sum </identifier>
-          </term>
+        </expression>
           <symbol> / </symbol>
           <term>
           <identifier> length </identifier>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
