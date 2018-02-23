@@ -427,3 +427,43 @@ function 可以看是 class level ，不會用到 this ，object 的東西，
 field 這個keyword ，是用來，讓我們區別，它是所有變數加起來的大小，
 
 就 是這個物 件的總大小.
+
+
+接下來， 是要實作， 有string 以及 ，有陣列的情況：
+
+let a[i] = Keyboard.readInt("Enter a number: ");
+
+這要分成，左右二部份來看，
+
+   90 call Keyboard.readInt 1
+   91 pop temp 0
+   92 pop pointer 1
+   93 push temp 0
+   94 pop that 0
+
+
+
+this 跟  that  指標，用來指向 object or  array 中的某個元素 ，
+
+方便做存取。
+
+pop temp 0 是把 等號 右邊的值，先給存起來，等下要用來 assign 給 a[i] ,
+
+而下一行的 pop pointer  1 則是等號 左邊 a[i]  計算出來的值，
+
+也就 是要放值的 address ， 要pop到 that 指標.
+
+最後 的 93 94 行，則是把資料放到stack 再pop 到 that 指的位置 。
+
+
+
+接下來，是要實作，等號 左式有用到 array 的情況：
+
+let sum = sum + a[i];
+
+   99 pop pointer 1
+  100 push that 0
+
+只要有用到 array 就 需要印出這二行 給 that 指標。
+
+

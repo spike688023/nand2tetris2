@@ -570,6 +570,8 @@ class CompilationEngine():
 
     def compileLet(self, level):
         LocalVariable = ""
+        case1 = False
+        case2 = False
         level = level + 1
         self.file.write( ( ' ' * level * 2) + "<letStatement>" + "\n")
 
@@ -586,16 +588,21 @@ class CompilationEngine():
         # ('[' experssion ']')? '='
         self.tokenizer.advance()
         if self.tokenizer.symbol() == '[' :
+            case1 = True
             self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
             # Expression
             self.compileExpression(level)
 
             # ']'
             self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
+            FindTable_And_MemorySegment(self.symbolTables , self.fileVm , self.GetCurrentTableName() , "push", LocalVariable)
+            self.fileVm.write( "add" + "\n")
+
             # '='
             self.tokenizer.advance()
             self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
         else:
+            case2 = True
             # '='
             self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
 
@@ -609,7 +616,14 @@ class CompilationEngine():
         self.file.write( ( ' ' * level * 2) + "</letStatement>" + "\n")
 
         # lookup in symbol tables
-        FindTable_And_MemorySegment(self.symbolTables , self.fileVm , self.GetCurrentTableName() , "pop", LocalVariable)
+        # here depends on left operand ,
+        if case2 == True:
+            FindTable_And_MemorySegment(self.symbolTables , self.fileVm , self.GetCurrentTableName() , "pop", LocalVariable)
+        elif case1 == True:
+            self.fileVm.write( "pop temp 0" + "\n")
+            self.fileVm.write( "pop pointer 1" + "\n")
+            self.fileVm.write( "push temp 0" + "\n")
+            self.fileVm.write( "pop that 0" + "\n")
 
     def compileDo(self, level):
         self.file.write( ( ' ' * level * 2) + "<doStatement>" + "\n")
@@ -800,9 +814,11 @@ class CompilationEngine():
 
 	        charCounts = len(self.tokenizer.stringVal())
 
-                self.fileVm.write( "push constant " + charCounts + "\n")
+                self.fileVm.write( "push constant " + str(charCounts) + "\n")
                 self.fileVm.write( "call String.new 1" + "\n")
                 for i in self.tokenizer.stringVal():
+                    self.fileVm.write( "push constant " + str( ord(i) ) + "\n")
+                    self.fileVm.write( "call String.appendChar 2" + "\n")
 
 	    # keep while loop works fine
 	    self.tokenizer.advance()
@@ -840,6 +856,12 @@ class CompilationEngine():
 	        self.compileExpression(level)
 	        # ']'
 	        self.writePattern( self.tokenizer.tokenType(), self.tokenizer.symbol() , level)
+
+                FindTable_And_MemorySegment(self.symbolTables , self.fileVm , self.GetCurrentTableName() , "push", Name )
+                self.fileVm.write( "add" + "\n")
+                self.fileVm.write( "pop pointer 1" + "\n")
+                self.fileVm.write( "push that 0" + "\n")
+
 	        # keep while loop works fine
 	        self.tokenizer.advance()
             elif self.tokenizer.symbol() in [ "(", "." ]:
