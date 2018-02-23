@@ -43,7 +43,7 @@
           <expressionList>
           </expressionList>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>

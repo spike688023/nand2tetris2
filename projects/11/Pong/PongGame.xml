@@ -79,7 +79,7 @@
         <expression>
           <term>
           <integerConstant> 50 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -97,29 +97,29 @@
             <expression>
               <term>
               <integerConstant> 230 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> , </symbol>
             <expression>
               <term>
               <integerConstant> 229 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> , </symbol>
             <expression>
               <term>
               <identifier> batWidth </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> , </symbol>
             <expression>
               <term>
               <integerConstant> 7 </integerConstant>
-              </term>
+            </expression>
             </expression>
           </expressionList>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -137,41 +137,41 @@
             <expression>
               <term>
               <integerConstant> 253 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> , </symbol>
             <expression>
               <term>
               <integerConstant> 222 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> , </symbol>
             <expression>
               <term>
               <integerConstant> 0 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> , </symbol>
             <expression>
               <term>
               <integerConstant> 511 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> , </symbol>
             <expression>
               <term>
               <integerConstant> 0 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> , </symbol>
             <expression>
               <term>
               <integerConstant> 229 </integerConstant>
-              </term>
+            </expression>
             </expression>
           </expressionList>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -185,13 +185,13 @@
         <expression>
           <term>
           <integerConstant> 400 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> , </symbol>
         <expression>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -207,25 +207,25 @@
         <expression>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> , </symbol>
         <expression>
           <term>
           <integerConstant> 238 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> , </symbol>
         <expression>
           <term>
           <integerConstant> 511 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> , </symbol>
         <expression>
           <term>
           <integerConstant> 240 </integerConstant>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -241,13 +241,13 @@
         <expression>
           <term>
           <integerConstant> 22 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> , </symbol>
         <expression>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -263,7 +263,7 @@
         <expression>
           <term>
           <stringConstant> Score: 0 </stringConstant>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -276,7 +276,7 @@
         <expression>
           <term>
           <keyword> false </keyword>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -287,7 +287,7 @@
         <expression>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -298,7 +298,7 @@
         <expression>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -309,7 +309,7 @@
         <expression>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -318,7 +318,7 @@
       <expression>
         <term>
         <keyword> this </keyword>
-        </term>
+      </expression>
       </expression>
       <symbol> ; </symbol>
     </returnStatement>
@@ -369,7 +369,7 @@
         <expression>
           <term>
           <keyword> this </keyword>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -407,7 +407,7 @@
           <expressionList>
           </expressionList>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -435,7 +435,7 @@
       <expression>
         <term>
         <identifier> instance </identifier>
-        </term>
+      </expression>
       </expression>
       <symbol> ; </symbol>
     </returnStatement>
@@ -468,8 +468,8 @@
           <symbol> ~ </symbol>
           <term>
           <identifier> exit </identifier>
-          </term>
-          </term>
+        </expression>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -483,14 +483,14 @@
               <expression>
                 <term>
                 <identifier> key </identifier>
-                </term>
+              </expression>
                 <symbol> = </symbol>
                 <term>
                 <integerConstant> 0 </integerConstant>
-                </term>
+              </expression>
               </expression>
               <symbol> ) </symbol>
-              </term>
+            </expression>
               <symbol> &amp; </symbol>
               <term>
               <symbol> ( </symbol>
@@ -499,11 +499,11 @@
                 <symbol> ~ </symbol>
                 <term>
                 <identifier> exit </identifier>
-                </term>
-                </term>
+              </expression>
+              </expression>
               </expression>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ) </symbol>
             <symbol> { </symbol>
@@ -521,7 +521,7 @@
                   <expressionList>
                   </expressionList>
                   <symbol> ) </symbol>
-                  </term>
+                </expression>
                 </expression>
                 <symbol> ; </symbol>
               </letStatement>
@@ -555,7 +555,7 @@
                 <expression>
                   <term>
                   <integerConstant> 50 </integerConstant>
-                  </term>
+                </expression>
                 </expression>
               </expressionList>
               <symbol> ) </symbol>
@@ -570,11 +570,11 @@
             <expression>
               <term>
               <identifier> key </identifier>
-              </term>
+            </expression>
               <symbol> = </symbol>
               <term>
               <integerConstant> 130 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ) </symbol>
             <symbol> { </symbol>
@@ -589,7 +589,7 @@
                 <expression>
                   <term>
                   <integerConstant> 1 </integerConstant>
-                  </term>
+                </expression>
                 </expression>
               </expressionList>
               <symbol> ) </symbol>
@@ -606,11 +606,11 @@
                   <expression>
                     <term>
                     <identifier> key </identifier>
-                    </term>
+                  </expression>
                     <symbol> = </symbol>
                     <term>
                     <integerConstant> 132 </integerConstant>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ) </symbol>
                   <symbol> { </symbol>
@@ -625,7 +625,7 @@
                       <expression>
                         <term>
                         <integerConstant> 2 </integerConstant>
-                        </term>
+                      </expression>
                       </expression>
                     </expressionList>
                     <symbol> ) </symbol>
@@ -642,11 +642,11 @@
                         <expression>
                           <term>
                           <identifier> key </identifier>
-                          </term>
+                        </expression>
                           <symbol> = </symbol>
                           <term>
                           <integerConstant> 140 </integerConstant>
-                          </term>
+                        </expression>
                         </expression>
                         <symbol> ) </symbol>
                         <symbol> { </symbol>
@@ -658,7 +658,7 @@
                             <expression>
                               <term>
                               <keyword> true </keyword>
-                              </term>
+                            </expression>
                             </expression>
                             <symbol> ; </symbol>
                           </letStatement>
@@ -685,18 +685,18 @@
                 <expression>
                   <term>
                   <identifier> key </identifier>
-                  </term>
+                </expression>
                   <symbol> = </symbol>
                   <term>
                   <integerConstant> 0 </integerConstant>
-                  </term>
+                </expression>
                 </expression>
                 <symbol> ) </symbol>
-                </term>
-                </term>
+              </expression>
+              </expression>
               </expression>
               <symbol> ) </symbol>
-              </term>
+            </expression>
               <symbol> &amp; </symbol>
               <term>
               <symbol> ( </symbol>
@@ -705,11 +705,11 @@
                 <symbol> ~ </symbol>
                 <term>
                 <identifier> exit </identifier>
-                </term>
-                </term>
+              </expression>
+              </expression>
               </expression>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ) </symbol>
             <symbol> { </symbol>
@@ -727,7 +727,7 @@
                   <expressionList>
                   </expressionList>
                   <symbol> ) </symbol>
-                  </term>
+                </expression>
                 </expression>
                 <symbol> ; </symbol>
               </letStatement>
@@ -761,7 +761,7 @@
                 <expression>
                   <term>
                   <integerConstant> 50 </integerConstant>
-                  </term>
+                </expression>
                 </expression>
               </expressionList>
               <symbol> ) </symbol>
@@ -779,7 +779,7 @@
         <expression>
           <term>
           <identifier> exit </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -794,13 +794,13 @@
             <expression>
               <term>
               <integerConstant> 10 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> , </symbol>
             <expression>
               <term>
               <integerConstant> 27 </integerConstant>
-              </term>
+            </expression>
             </expression>
           </expressionList>
           <symbol> ) </symbol>
@@ -816,7 +816,7 @@
             <expression>
               <term>
               <stringConstant> Game Over </stringConstant>
-              </term>
+            </expression>
             </expression>
           </expressionList>
           <symbol> ) </symbol>
@@ -871,7 +871,7 @@
           <expressionList>
           </expressionList>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -884,14 +884,14 @@
           <expression>
             <term>
             <identifier> wall </identifier>
-            </term>
+          </expression>
             <symbol> &gt; </symbol>
             <term>
             <integerConstant> 0 </integerConstant>
-            </term>
+          </expression>
           </expression>
           <symbol> ) </symbol>
-          </term>
+        </expression>
           <symbol> &amp; </symbol>
           <term>
           <symbol> ( </symbol>
@@ -903,18 +903,18 @@
             <expression>
               <term>
               <identifier> wall </identifier>
-              </term>
+            </expression>
               <symbol> = </symbol>
               <term>
               <identifier> lastWall </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ) </symbol>
-            </term>
-            </term>
+          </expression>
+          </expression>
           </expression>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -926,7 +926,7 @@
             <expression>
               <term>
               <identifier> wall </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -937,7 +937,7 @@
             <expression>
               <term>
               <integerConstant> 0 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -954,7 +954,7 @@
               <expressionList>
               </expressionList>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -971,7 +971,7 @@
               <expressionList>
               </expressionList>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -988,7 +988,7 @@
               <expressionList>
               </expressionList>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1005,7 +1005,7 @@
               <expressionList>
               </expressionList>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1015,11 +1015,11 @@
             <expression>
               <term>
               <identifier> wall </identifier>
-              </term>
+            </expression>
               <symbol> = </symbol>
               <term>
               <integerConstant> 4 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ) </symbol>
             <symbol> { </symbol>
@@ -1034,28 +1034,28 @@
                   <expression>
                     <term>
                     <identifier> batLeft </identifier>
-                    </term>
+                  </expression>
                     <symbol> &gt; </symbol>
                     <term>
                     <identifier> ballRight </identifier>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ) </symbol>
-                  </term>
+                </expression>
                   <symbol> | </symbol>
                   <term>
                   <symbol> ( </symbol>
                   <expression>
                     <term>
                     <identifier> batRight </identifier>
-                    </term>
+                  </expression>
                     <symbol> &lt; </symbol>
                     <term>
                     <identifier> ballLeft </identifier>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ) </symbol>
-                  </term>
+                </expression>
                 </expression>
                 <symbol> ; </symbol>
               </letStatement>
@@ -1067,8 +1067,8 @@
                   <symbol> ~ </symbol>
                   <term>
                   <identifier> exit </identifier>
-                  </term>
-                  </term>
+                </expression>
+                </expression>
                 </expression>
                 <symbol> ) </symbol>
                 <symbol> { </symbol>
@@ -1079,21 +1079,21 @@
                     <expression>
                       <term>
                       <identifier> ballRight </identifier>
-                      </term>
+                    </expression>
                       <symbol> &lt; </symbol>
                       <term>
                       <symbol> ( </symbol>
                       <expression>
                         <term>
                         <identifier> batLeft </identifier>
-                        </term>
+                      </expression>
                         <symbol> + </symbol>
                         <term>
                         <integerConstant> 10 </integerConstant>
-                        </term>
+                      </expression>
                       </expression>
                       <symbol> ) </symbol>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ) </symbol>
                     <symbol> { </symbol>
@@ -1107,8 +1107,8 @@
                           <symbol> - </symbol>
                           <term>
                           <integerConstant> 1 </integerConstant>
-                          </term>
-                          </term>
+                        </expression>
+                        </expression>
                         </expression>
                         <symbol> ; </symbol>
                       </letStatement>
@@ -1123,21 +1123,21 @@
                           <expression>
                             <term>
                             <identifier> ballLeft </identifier>
-                            </term>
+                          </expression>
                             <symbol> &gt; </symbol>
                             <term>
                             <symbol> ( </symbol>
                             <expression>
                               <term>
                               <identifier> batRight </identifier>
-                              </term>
+                            </expression>
                               <symbol> - </symbol>
                               <term>
                               <integerConstant> 10 </integerConstant>
-                              </term>
+                            </expression>
                             </expression>
                             <symbol> ) </symbol>
-                            </term>
+                          </expression>
                           </expression>
                           <symbol> ) </symbol>
                           <symbol> { </symbol>
@@ -1149,7 +1149,7 @@
                               <expression>
                                 <term>
                                 <integerConstant> 1 </integerConstant>
-                                </term>
+                              </expression>
                               </expression>
                               <symbol> ; </symbol>
                             </letStatement>
@@ -1166,11 +1166,11 @@
                     <expression>
                       <term>
                       <identifier> batWidth </identifier>
-                      </term>
+                    </expression>
                       <symbol> - </symbol>
                       <term>
                       <integerConstant> 2 </integerConstant>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ; </symbol>
                   </letStatement>
@@ -1184,7 +1184,7 @@
                     <expression>
                       <term>
                       <identifier> batWidth </identifier>
-                      </term>
+                    </expression>
                     </expression>
                   </expressionList>
                   <symbol> ) </symbol>
@@ -1197,11 +1197,11 @@
                     <expression>
                       <term>
                       <identifier> score </identifier>
-                      </term>
+                    </expression>
                       <symbol> + </symbol>
                       <term>
                       <integerConstant> 1 </integerConstant>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ; </symbol>
                   </letStatement>
@@ -1215,13 +1215,13 @@
                     <expression>
                       <term>
                       <integerConstant> 22 </integerConstant>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> , </symbol>
                     <expression>
                       <term>
                       <integerConstant> 7 </integerConstant>
-                      </term>
+                    </expression>
                     </expression>
                   </expressionList>
                   <symbol> ) </symbol>
@@ -1237,7 +1237,7 @@
                     <expression>
                       <term>
                       <identifier> score </identifier>
-                      </term>
+                    </expression>
                     </expression>
                   </expressionList>
                   <symbol> ) </symbol>
@@ -1259,7 +1259,7 @@
             <expression>
               <term>
               <identifier> bouncingDirection </identifier>
-              </term>
+            </expression>
             </expression>
           </expressionList>
           <symbol> ) </symbol>

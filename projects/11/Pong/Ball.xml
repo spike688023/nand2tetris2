@@ -91,7 +91,7 @@
         <expression>
           <term>
           <identifier> Ax </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -102,7 +102,7 @@
         <expression>
           <term>
           <identifier> Ay </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -113,7 +113,7 @@
         <expression>
           <term>
           <identifier> AleftWall </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -124,11 +124,11 @@
         <expression>
           <term>
           <identifier> ArightWall </identifier>
-          </term>
+        </expression>
           <symbol> - </symbol>
           <term>
           <integerConstant> 6 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -139,7 +139,7 @@
         <expression>
           <term>
           <identifier> AtopWall </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -150,11 +150,11 @@
         <expression>
           <term>
           <identifier> AbottomWall </identifier>
-          </term>
+        </expression>
           <symbol> - </symbol>
           <term>
           <integerConstant> 6 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -165,7 +165,7 @@
         <expression>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -183,7 +183,7 @@
       <expression>
         <term>
         <keyword> this </keyword>
-        </term>
+      </expression>
       </expression>
       <symbol> ; </symbol>
     </returnStatement>
@@ -212,7 +212,7 @@
         <expression>
           <term>
           <keyword> this </keyword>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -247,7 +247,7 @@
         <expression>
           <term>
           <keyword> true </keyword>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -291,7 +291,7 @@
         <expression>
           <term>
           <keyword> false </keyword>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -335,33 +335,33 @@
         <expression>
           <term>
           <identifier> x </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> , </symbol>
         <expression>
           <term>
           <identifier> y </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> , </symbol>
         <expression>
           <term>
           <identifier> x </identifier>
-          </term>
+        </expression>
           <symbol> + </symbol>
           <term>
           <integerConstant> 5 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> , </symbol>
         <expression>
           <term>
           <identifier> y </identifier>
-          </term>
+        </expression>
           <symbol> + </symbol>
           <term>
           <integerConstant> 5 </integerConstant>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>
@@ -391,7 +391,7 @@
       <expression>
         <term>
         <identifier> x </identifier>
-        </term>
+      </expression>
       </expression>
       <symbol> ; </symbol>
     </returnStatement>
@@ -415,11 +415,11 @@
       <expression>
         <term>
         <identifier> x </identifier>
-        </term>
+      </expression>
         <symbol> + </symbol>
         <term>
         <integerConstant> 5 </integerConstant>
-        </term>
+      </expression>
       </expression>
       <symbol> ; </symbol>
     </returnStatement>
@@ -460,11 +460,11 @@
         <expression>
           <term>
           <identifier> destx </identifier>
-          </term>
+        </expression>
           <symbol> - </symbol>
           <term>
           <identifier> x </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -475,11 +475,11 @@
         <expression>
           <term>
           <identifier> desty </identifier>
-          </term>
+        </expression>
           <symbol> - </symbol>
           <term>
           <identifier> y </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -497,11 +497,11 @@
             <expression>
               <term>
               <identifier> lengthx </identifier>
-              </term>
+            </expression>
             </expression>
           </expressionList>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -519,11 +519,11 @@
             <expression>
               <term>
               <identifier> lengthy </identifier>
-              </term>
+            </expression>
             </expression>
           </expressionList>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -537,14 +537,14 @@
           <expression>
             <term>
             <identifier> dx </identifier>
-            </term>
+          </expression>
             <symbol> &lt; </symbol>
             <term>
             <identifier> dy </identifier>
-            </term>
+          </expression>
           </expression>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -554,7 +554,7 @@
         <expression>
           <term>
           <identifier> invert </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -566,7 +566,7 @@
             <expression>
               <term>
               <identifier> dx </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -577,7 +577,7 @@
             <expression>
               <term>
               <identifier> dy </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -588,7 +588,7 @@
             <expression>
               <term>
               <identifier> temp </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -602,14 +602,14 @@
               <expression>
                 <term>
                 <identifier> y </identifier>
-                </term>
+              </expression>
                 <symbol> &lt; </symbol>
                 <term>
                 <identifier> desty </identifier>
-                </term>
+              </expression>
               </expression>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -623,14 +623,14 @@
               <expression>
                 <term>
                 <identifier> x </identifier>
-                </term>
+              </expression>
                 <symbol> &lt; </symbol>
                 <term>
                 <identifier> destx </identifier>
-                </term>
+              </expression>
               </expression>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -649,14 +649,14 @@
                 <expression>
                   <term>
                   <identifier> x </identifier>
-                  </term>
+                </expression>
                   <symbol> &lt; </symbol>
                   <term>
                   <identifier> destx </identifier>
-                  </term>
+                </expression>
                 </expression>
                 <symbol> ) </symbol>
-                </term>
+              </expression>
               </expression>
               <symbol> ; </symbol>
             </letStatement>
@@ -670,14 +670,14 @@
                 <expression>
                   <term>
                   <identifier> y </identifier>
-                  </term>
+                </expression>
                   <symbol> &lt; </symbol>
                   <term>
                   <identifier> desty </identifier>
-                  </term>
+                </expression>
                 </expression>
                 <symbol> ) </symbol>
-                </term>
+              </expression>
               </expression>
               <symbol> ; </symbol>
             </letStatement>
@@ -694,18 +694,18 @@
           <expression>
             <term>
             <integerConstant> 2 </integerConstant>
-            </term>
+          </expression>
             <symbol> * </symbol>
             <term>
             <identifier> dy </identifier>
-            </term>
+          </expression>
           </expression>
           <symbol> ) </symbol>
-          </term>
+        </expression>
           <symbol> - </symbol>
           <term>
           <identifier> dx </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -716,11 +716,11 @@
         <expression>
           <term>
           <integerConstant> 2 </integerConstant>
-          </term>
+        </expression>
           <symbol> * </symbol>
           <term>
           <identifier> dy </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -731,21 +731,21 @@
         <expression>
           <term>
           <integerConstant> 2 </integerConstant>
-          </term>
+        </expression>
           <symbol> * </symbol>
           <term>
           <symbol> ( </symbol>
           <expression>
             <term>
             <identifier> dy </identifier>
-            </term>
+          </expression>
             <symbol> - </symbol>
             <term>
             <identifier> dx </identifier>
-            </term>
+          </expression>
           </expression>
           <symbol> ) </symbol>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -783,11 +783,11 @@
         <expression>
           <term>
           <identifier> d </identifier>
-          </term>
+        </expression>
           <symbol> &lt; </symbol>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -799,11 +799,11 @@
             <expression>
               <term>
               <identifier> d </identifier>
-              </term>
+            </expression>
               <symbol> + </symbol>
               <term>
               <identifier> straightD </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -819,11 +819,11 @@
               <expression>
                 <term>
                 <identifier> d </identifier>
-                </term>
+              </expression>
                 <symbol> + </symbol>
                 <term>
                 <identifier> diagonalD </identifier>
-                </term>
+              </expression>
               </expression>
               <symbol> ; </symbol>
             </letStatement>
@@ -833,7 +833,7 @@
               <expression>
                 <term>
                 <identifier> positivey </identifier>
-                </term>
+              </expression>
               </expression>
               <symbol> ) </symbol>
               <symbol> { </symbol>
@@ -844,7 +844,7 @@
                   <expression>
                     <term>
                     <identifier> invert </identifier>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ) </symbol>
                   <symbol> { </symbol>
@@ -856,11 +856,11 @@
                       <expression>
                         <term>
                         <identifier> x </identifier>
-                        </term>
+                      </expression>
                         <symbol> + </symbol>
                         <term>
                         <integerConstant> 4 </integerConstant>
-                        </term>
+                      </expression>
                       </expression>
                       <symbol> ; </symbol>
                     </letStatement>
@@ -876,11 +876,11 @@
                         <expression>
                           <term>
                           <identifier> y </identifier>
-                          </term>
+                        </expression>
                           <symbol> + </symbol>
                           <term>
                           <integerConstant> 4 </integerConstant>
-                          </term>
+                        </expression>
                         </expression>
                         <symbol> ; </symbol>
                       </letStatement>
@@ -898,7 +898,7 @@
                     <expression>
                       <term>
                       <identifier> invert </identifier>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ) </symbol>
                     <symbol> { </symbol>
@@ -910,11 +910,11 @@
                         <expression>
                           <term>
                           <identifier> x </identifier>
-                          </term>
+                        </expression>
                           <symbol> - </symbol>
                           <term>
                           <integerConstant> 4 </integerConstant>
-                          </term>
+                        </expression>
                         </expression>
                         <symbol> ; </symbol>
                       </letStatement>
@@ -930,11 +930,11 @@
                           <expression>
                             <term>
                             <identifier> y </identifier>
-                            </term>
+                          </expression>
                             <symbol> - </symbol>
                             <term>
                             <integerConstant> 4 </integerConstant>
-                            </term>
+                          </expression>
                           </expression>
                           <symbol> ; </symbol>
                         </letStatement>
@@ -953,7 +953,7 @@
         <expression>
           <term>
           <identifier> positivex </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -964,7 +964,7 @@
             <expression>
               <term>
               <identifier> invert </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ) </symbol>
             <symbol> { </symbol>
@@ -976,11 +976,11 @@
                 <expression>
                   <term>
                   <identifier> y </identifier>
-                  </term>
+                </expression>
                   <symbol> + </symbol>
                   <term>
                   <integerConstant> 4 </integerConstant>
-                  </term>
+                </expression>
                 </expression>
                 <symbol> ; </symbol>
               </letStatement>
@@ -996,11 +996,11 @@
                   <expression>
                     <term>
                     <identifier> x </identifier>
-                    </term>
+                  </expression>
                     <symbol> + </symbol>
                     <term>
                     <integerConstant> 4 </integerConstant>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ; </symbol>
                 </letStatement>
@@ -1018,7 +1018,7 @@
               <expression>
                 <term>
                 <identifier> invert </identifier>
-                </term>
+              </expression>
               </expression>
               <symbol> ) </symbol>
               <symbol> { </symbol>
@@ -1030,11 +1030,11 @@
                   <expression>
                     <term>
                     <identifier> y </identifier>
-                    </term>
+                  </expression>
                     <symbol> - </symbol>
                     <term>
                     <integerConstant> 4 </integerConstant>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ; </symbol>
                 </letStatement>
@@ -1050,11 +1050,11 @@
                     <expression>
                       <term>
                       <identifier> x </identifier>
-                      </term>
+                    </expression>
                       <symbol> - </symbol>
                       <term>
                       <integerConstant> 4 </integerConstant>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ; </symbol>
                   </letStatement>
@@ -1075,15 +1075,15 @@
           <expression>
             <term>
             <identifier> x </identifier>
-            </term>
+          </expression>
             <symbol> &gt; </symbol>
             <term>
             <identifier> leftWall </identifier>
-            </term>
+          </expression>
           </expression>
           <symbol> ) </symbol>
-          </term>
-          </term>
+        </expression>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -1095,7 +1095,7 @@
             <expression>
               <term>
               <integerConstant> 1 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1106,7 +1106,7 @@
             <expression>
               <term>
               <identifier> leftWall </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1124,15 +1124,15 @@
           <expression>
             <term>
             <identifier> x </identifier>
-            </term>
+          </expression>
             <symbol> &lt; </symbol>
             <term>
             <identifier> rightWall </identifier>
-            </term>
+          </expression>
           </expression>
           <symbol> ) </symbol>
-          </term>
-          </term>
+        </expression>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -1144,7 +1144,7 @@
             <expression>
               <term>
               <integerConstant> 2 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1155,7 +1155,7 @@
             <expression>
               <term>
               <identifier> rightWall </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1173,15 +1173,15 @@
           <expression>
             <term>
             <identifier> y </identifier>
-            </term>
+          </expression>
             <symbol> &gt; </symbol>
             <term>
             <identifier> topWall </identifier>
-            </term>
+          </expression>
           </expression>
           <symbol> ) </symbol>
-          </term>
-          </term>
+        </expression>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -1193,7 +1193,7 @@
             <expression>
               <term>
               <integerConstant> 3 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1204,7 +1204,7 @@
             <expression>
               <term>
               <identifier> topWall </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1222,15 +1222,15 @@
           <expression>
             <term>
             <identifier> y </identifier>
-            </term>
+          </expression>
             <symbol> &lt; </symbol>
             <term>
             <identifier> bottomWall </identifier>
-            </term>
+          </expression>
           </expression>
           <symbol> ) </symbol>
-          </term>
-          </term>
+        </expression>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -1242,7 +1242,7 @@
             <expression>
               <term>
               <integerConstant> 4 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1253,7 +1253,7 @@
             <expression>
               <term>
               <identifier> bottomWall </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1274,7 +1274,7 @@
       <expression>
         <term>
         <identifier> wall </identifier>
-        </term>
+      </expression>
       </expression>
       <symbol> ; </symbol>
     </returnStatement>
@@ -1316,11 +1316,11 @@
         <expression>
           <term>
           <identifier> lengthx </identifier>
-          </term>
+        </expression>
           <symbol> / </symbol>
           <term>
           <integerConstant> 10 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -1331,11 +1331,11 @@
         <expression>
           <term>
           <identifier> lengthy </identifier>
-          </term>
+        </expression>
           <symbol> / </symbol>
           <term>
           <integerConstant> 10 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ; </symbol>
       </letStatement>
@@ -1345,11 +1345,11 @@
         <expression>
           <term>
           <identifier> bouncingDirection </identifier>
-          </term>
+        </expression>
           <symbol> = </symbol>
           <term>
           <integerConstant> 0 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -1361,7 +1361,7 @@
             <expression>
               <term>
               <integerConstant> 10 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1387,35 +1387,35 @@
                     <expression>
                       <term>
                       <identifier> lengthx </identifier>
-                      </term>
+                    </expression>
                       <symbol> &lt; </symbol>
                       <term>
                       <integerConstant> 0 </integerConstant>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ) </symbol>
-                    </term>
-                    </term>
+                  </expression>
+                  </expression>
                   </expression>
                   <symbol> ) </symbol>
-                  </term>
+                </expression>
                   <symbol> &amp; </symbol>
                   <term>
                   <symbol> ( </symbol>
                   <expression>
                     <term>
                     <identifier> bouncingDirection </identifier>
-                    </term>
+                  </expression>
                     <symbol> = </symbol>
                     <term>
                     <integerConstant> 1 </integerConstant>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ) </symbol>
-                  </term>
+                </expression>
                 </expression>
                 <symbol> ) </symbol>
-                </term>
+              </expression>
                 <symbol> | </symbol>
                 <term>
                 <symbol> ( </symbol>
@@ -1425,21 +1425,21 @@
                   <expression>
                     <term>
                     <identifier> lengthx </identifier>
-                    </term>
+                  </expression>
                     <symbol> &lt; </symbol>
                     <term>
                     <integerConstant> 0 </integerConstant>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ) </symbol>
-                  </term>
+                </expression>
                   <symbol> &amp; </symbol>
                   <term>
                   <symbol> ( </symbol>
                   <expression>
                     <term>
                     <identifier> bouncingDirection </identifier>
-                    </term>
+                  </expression>
                     <symbol> = </symbol>
                     <term>
                     <symbol> ( </symbol>
@@ -1448,17 +1448,17 @@
                       <symbol> - </symbol>
                       <term>
                       <integerConstant> 1 </integerConstant>
-                      </term>
-                      </term>
+                    </expression>
+                    </expression>
                     </expression>
                     <symbol> ) </symbol>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ) </symbol>
-                  </term>
+                </expression>
                 </expression>
                 <symbol> ) </symbol>
-                </term>
+              </expression>
               </expression>
               <symbol> ) </symbol>
               <symbol> { </symbol>
@@ -1470,7 +1470,7 @@
                   <expression>
                     <term>
                     <integerConstant> 20 </integerConstant>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ; </symbol>
                 </letStatement>
@@ -1486,7 +1486,7 @@
                     <expression>
                       <term>
                       <integerConstant> 5 </integerConstant>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ; </symbol>
                   </letStatement>
@@ -1502,11 +1502,11 @@
         <expression>
           <term>
           <identifier> wall </identifier>
-          </term>
+        </expression>
           <symbol> = </symbol>
           <term>
           <integerConstant> 1 </integerConstant>
-          </term>
+        </expression>
         </expression>
         <symbol> ) </symbol>
         <symbol> { </symbol>
@@ -1518,7 +1518,7 @@
             <expression>
               <term>
               <integerConstant> 506 </integerConstant>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1532,7 +1532,7 @@
               <expression>
                 <term>
                 <identifier> divLengthy </identifier>
-                </term>
+              </expression>
                 <symbol> * </symbol>
                 <term>
                 <symbol> ( </symbol>
@@ -1541,18 +1541,18 @@
                   <symbol> - </symbol>
                   <term>
                   <integerConstant> 50 </integerConstant>
-                  </term>
-                  </term>
+                </expression>
+                </expression>
                 </expression>
                 <symbol> ) </symbol>
-                </term>
+              </expression>
               </expression>
               <symbol> ) </symbol>
-              </term>
+            </expression>
               <symbol> / </symbol>
               <term>
               <identifier> divLengthx </identifier>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1563,21 +1563,21 @@
             <expression>
               <term>
               <identifier> y </identifier>
-              </term>
+            </expression>
               <symbol> + </symbol>
               <term>
               <symbol> ( </symbol>
               <expression>
                 <term>
                 <identifier> newy </identifier>
-                </term>
+              </expression>
                 <symbol> * </symbol>
                 <term>
                 <identifier> factor </identifier>
-                </term>
+              </expression>
               </expression>
               <symbol> ) </symbol>
-              </term>
+            </expression>
             </expression>
             <symbol> ; </symbol>
           </letStatement>
@@ -1592,11 +1592,11 @@
               <expression>
                 <term>
                 <identifier> wall </identifier>
-                </term>
+              </expression>
                 <symbol> = </symbol>
                 <term>
                 <integerConstant> 2 </integerConstant>
-                </term>
+              </expression>
               </expression>
               <symbol> ) </symbol>
               <symbol> { </symbol>
@@ -1608,7 +1608,7 @@
                   <expression>
                     <term>
                     <integerConstant> 0 </integerConstant>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ; </symbol>
                 </letStatement>
@@ -1622,18 +1622,18 @@
                     <expression>
                       <term>
                       <identifier> divLengthy </identifier>
-                      </term>
+                    </expression>
                       <symbol> * </symbol>
                       <term>
                       <integerConstant> 50 </integerConstant>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ) </symbol>
-                    </term>
+                  </expression>
                     <symbol> / </symbol>
                     <term>
                     <identifier> divLengthx </identifier>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ; </symbol>
                 </letStatement>
@@ -1644,21 +1644,21 @@
                   <expression>
                     <term>
                     <identifier> y </identifier>
-                    </term>
+                  </expression>
                     <symbol> + </symbol>
                     <term>
                     <symbol> ( </symbol>
                     <expression>
                       <term>
                       <identifier> newy </identifier>
-                      </term>
+                    </expression>
                       <symbol> * </symbol>
                       <term>
                       <identifier> factor </identifier>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ) </symbol>
-                    </term>
+                  </expression>
                   </expression>
                   <symbol> ; </symbol>
                 </letStatement>
@@ -1673,11 +1673,11 @@
                     <expression>
                       <term>
                       <identifier> wall </identifier>
-                      </term>
+                    </expression>
                       <symbol> = </symbol>
                       <term>
                       <integerConstant> 3 </integerConstant>
-                      </term>
+                    </expression>
                     </expression>
                     <symbol> ) </symbol>
                     <symbol> { </symbol>
@@ -1689,7 +1689,7 @@
                         <expression>
                           <term>
                           <integerConstant> 250 </integerConstant>
-                          </term>
+                        </expression>
                         </expression>
                         <symbol> ; </symbol>
                       </letStatement>
@@ -1703,7 +1703,7 @@
                           <expression>
                             <term>
                             <identifier> divLengthx </identifier>
-                            </term>
+                          </expression>
                             <symbol> * </symbol>
                             <term>
                             <symbol> ( </symbol>
@@ -1712,18 +1712,18 @@
                               <symbol> - </symbol>
                               <term>
                               <integerConstant> 25 </integerConstant>
-                              </term>
-                              </term>
+                            </expression>
+                            </expression>
                             </expression>
                             <symbol> ) </symbol>
-                            </term>
+                          </expression>
                           </expression>
                           <symbol> ) </symbol>
-                          </term>
+                        </expression>
                           <symbol> / </symbol>
                           <term>
                           <identifier> divLengthy </identifier>
-                          </term>
+                        </expression>
                         </expression>
                         <symbol> ; </symbol>
                       </letStatement>
@@ -1734,21 +1734,21 @@
                         <expression>
                           <term>
                           <identifier> x </identifier>
-                          </term>
+                        </expression>
                           <symbol> + </symbol>
                           <term>
                           <symbol> ( </symbol>
                           <expression>
                             <term>
                             <identifier> newx </identifier>
-                            </term>
+                          </expression>
                             <symbol> * </symbol>
                             <term>
                             <identifier> factor </identifier>
-                            </term>
+                          </expression>
                           </expression>
                           <symbol> ) </symbol>
-                          </term>
+                        </expression>
                         </expression>
                         <symbol> ; </symbol>
                       </letStatement>
@@ -1764,7 +1764,7 @@
                           <expression>
                             <term>
                             <integerConstant> 0 </integerConstant>
-                            </term>
+                          </expression>
                           </expression>
                           <symbol> ; </symbol>
                         </letStatement>
@@ -1778,18 +1778,18 @@
                             <expression>
                               <term>
                               <identifier> divLengthx </identifier>
-                              </term>
+                            </expression>
                               <symbol> * </symbol>
                               <term>
                               <integerConstant> 25 </integerConstant>
-                              </term>
+                            </expression>
                             </expression>
                             <symbol> ) </symbol>
-                            </term>
+                          </expression>
                             <symbol> / </symbol>
                             <term>
                             <identifier> divLengthy </identifier>
-                            </term>
+                          </expression>
                           </expression>
                           <symbol> ; </symbol>
                         </letStatement>
@@ -1800,21 +1800,21 @@
                           <expression>
                             <term>
                             <identifier> x </identifier>
-                            </term>
+                          </expression>
                             <symbol> + </symbol>
                             <term>
                             <symbol> ( </symbol>
                             <expression>
                               <term>
                               <identifier> newx </identifier>
-                              </term>
+                            </expression>
                               <symbol> * </symbol>
                               <term>
                               <identifier> factor </identifier>
-                              </term>
+                            </expression>
                             </expression>
                             <symbol> ) </symbol>
-                            </term>
+                          </expression>
                           </expression>
                           <symbol> ; </symbol>
                         </letStatement>
@@ -1835,13 +1835,13 @@
         <expression>
           <term>
           <identifier> newx </identifier>
-          </term>
+        </expression>
         </expression>
         <symbol> , </symbol>
         <expression>
           <term>
           <identifier> newy </identifier>
-          </term>
+        </expression>
         </expression>
       </expressionList>
       <symbol> ) </symbol>

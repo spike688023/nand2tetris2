@@ -467,3 +467,17 @@ let sum = sum + a[i];
 只要有用到 array 就 需要印出這二行 給 that 指標。
 
 
+
+要處理多個物件的情況了：
+
+ 12     field Bat bat;            // the bat
+ 13     field Ball ball;          // the ball
+
+很簡單， 只要在建symbol table時， 那個型態 ，不是內建的，
+
+那這個就 是新 的class.
+
+field 這個關鍵字，就是 object裡面的值.
+
+
+

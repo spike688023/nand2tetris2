@@ -11,7 +11,11 @@ def FindTable_And_MemorySegment( symbolTables , fileVm, tableName, action, Local
             if i.KindOf(LocalVariable) != "nothing":
                 fileVm.write( action + " " +  i.KindOf(LocalVariable) + ' ' + str(i.IndexOf(LocalVariable) ) + "\n")
             else:
-                fileVm.write( action + " this" + ' ' + str(symbolTables[0].IndexOf(LocalVariable) ) + "\n")
+                # find static variable in the first table
+                if symbolTables[0].KindOf(LocalVariable) == "static":
+                    fileVm.write( action + " " +  symbolTables[0].KindOf(LocalVariable) + ' ' + str(symbolTables[0].IndexOf(LocalVariable) ) + "\n")
+                else:
+                    fileVm.write( action + " this" + ' ' + str(symbolTables[0].IndexOf(LocalVariable) ) + "\n")
             break
 
 def RemoveComments( OriginFile ):
@@ -334,7 +338,7 @@ class CompilationEngine():
 
         # type
         self.tokenizer.advance()
-        if self.tokenizer.keyWord() in [ "int", "char", "boolean"]:
+        if self.tokenizer.keyWord() in [ "int", "char", "boolean" ]:
             self.writePattern( self.tokenizer.tokenType(), self.tokenizer.keyWord() , level)
             type = self.tokenizer.keyWord()
         else:
@@ -346,7 +350,6 @@ class CompilationEngine():
         self.writePattern( self.tokenizer.tokenType(), self.tokenizer.identifier() , level)
         name = self.tokenizer.identifier()
         table.define( name, type, kind )
-
 
         # (',' varName)* ','
         self.tokenizer.advance()
@@ -636,8 +639,9 @@ class CompilationEngine():
         self.tokenizer.advance()
         self.writePattern( self.tokenizer.tokenType(), self.tokenizer.identifier() , level)
         # if this subroutineName , could find in symbol table,
-        # change the name
+        # change the name to its class Name
         self.dofunctionName = self.tokenizer.identifier()
+
         # change object name to class name
         if self.symbolTables[-1].VariableExistOrNot( self.dofunctionName ) :
             self.fileVm.write( "push " +  self.symbolTables[-1].KindOf(self.dofunctionName) + ' ' + str(self.symbolTables[-1].IndexOf(self.dofunctionName) ) + "\n")
@@ -848,6 +852,7 @@ class CompilationEngine():
 
 	    Name = self.tokenizer.identifier()
 
+
 	    self.tokenizer.advance()
 	    # '['
 	    if self.tokenizer.symbol() == '[' :
@@ -867,6 +872,16 @@ class CompilationEngine():
             elif self.tokenizer.symbol() in [ "(", "." ]:
 
                 self.dofunctionName = Name
+
+                if self.symbolTables[-1].VariableExistOrNot( self.dofunctionName ) :
+                    self.fileVm.write( "push " +  self.symbolTables[-1].KindOf(self.dofunctionName) + ' ' + str(self.symbolTables[-1].IndexOf(self.dofunctionName) ) + "\n")
+                    self.dofunctionName = self.symbolTables[-1].TypeOf(self.dofunctionName)
+                    self.dofunctionParameterCount = self.dofunctionParameterCount + 1
+                elif self.symbolTables[0].VariableExistOrNot( self.dofunctionName ):
+                    self.fileVm.write( "push " +  self.symbolTables[0].KindOf(self.dofunctionName) + ' ' + str(self.symbolTables[0].IndexOf(self.dofunctionName) ) + "\n")
+                    self.dofunctionName = self.symbolTables[0].TypeOf(self.dofunctionName)
+                    self.dofunctionParameterCount = self.dofunctionParameterCount + 1
+
                 # subroutineCall
 	        self.tokenizer.backOneToken()
 	        self.subroutineCall(level)
