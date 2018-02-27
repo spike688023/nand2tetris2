@@ -9,16 +9,40 @@
  */
 class Math {
 
+    static Array value;
+
     /** Initializes the library. */
     function void init() {
+        var int count = 0;
+        let value = Array.new(16);
+        while ( count < 16 ) {
+            value[count] = 0;
+            count += 1;
+        }
+        value[0] = 1;
+        value[1] = 2;
+        value[2] = 4;
+        value[3] = 8;
+        value[4] = 16;
+        value[5] = 32;
+        value[6] = 64;
+        value[7] = 128;
+        value[8] = 256;
+        value[9] = 512;
+        value[10] = 1024;
+        value[11] = 2048;
+        value[12] = 4096;
+        value[13] = 8192;
+        value[14] = 16384;
+        value[15] = 32768;
     }
 
     /** Returns the absolute value of x. */
     function int abs(int x) {
         if ( x < 0 ) {
-            x = x * -1
+            x = x * -1;
         }
-        return x
+        return x;
     }
 
     /** Returns the product of x and y.
@@ -27,8 +51,17 @@ class Math {
      *  the Jack expressions x*y and multiply(x,y) return the same value.
      */
     function int multiply(int x, int y) {
-        if ( x = 0 ) { return 0}
-        if ( y = 0 ) { return 0}
+        var int sum;
+        var int shiftedX;
+        let sum = 0;
+        let shiftedX = x;
+
+        if ( (x = 0) | ( y = 0 ) ) { return 0;}
+    }
+
+    function boolean bit(int x, int i) {
+        if ( x & value[i] ) { return true;}
+        else {return false;}
     }
 
     /** Returns the integer part of x/y.
@@ -46,16 +79,16 @@ class Math {
     /** Returns the greater number. */
     function int max(int a, int b) {
         if ( a > b ) {
-            return a
+            return a;
         }
-        return b
+        return b;
     }
 
     /** Returns the smaller number. */
     function int min(int a, int b) {
         if ( a > b ) {
-            return b
+            return b;
         }
-        return a
+        return a;
     }
 }
