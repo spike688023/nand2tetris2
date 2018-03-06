@@ -58,4 +58,294 @@ log(2N) = logN + 1
 
 除了加減法，還有 and or 這二個可以用丫
 
+我想到pseudo code中的 shiftedX = shiftedX * 2 這要怎麼寫了，
 
+案，就 shiftedX = shiftedX + shiftedX , 酷，乘法寫出來了，
+
+寫出一個乘法，只要 and 跟加法，就可以做出來了。
+
+
+除法沒有sense, 參考以下網址：
+
+https://en.wikipedia.org/wiki/Division_algorithm
+
+對，call by value , call by reference ，有個想法，
+
+會是前者的話 ， 要是，那個資料結構，能夠放在一個word的大小 ，
+
+才能，不行 的話 ，參數傳遞，大多會是只傳base address, 傳base address的話，
+
+那就 是call by reference.
+
+
+好了，Math只剩下一個sqrt 要寫了，原來 sqrt 的從  (n/2) - 1 去找值，
+
+主要的判斷式，是這個 ， 去 sqrt.jpeg ，這裡不好寫。
+
+這裡的n 指的是cpu 的 bits  總數，這裡是 16個bits ,
+
+最大正整收 32768 是 2 的15次方 減1  ，
+
+2的15次方 約等 2的7次  ＊ 2的7 次方
+
+以上面次方的角度來看，要抓出最大正整數的根號 ，要月2的7次方去迫近，
+
+用2的8次方迫近的話，一定會爆了 overflow。
+
+抓根號 ，是要用次方的角度來看， 不是用單除2 來看，因為單除2，
+
+在次方的角度，也只是 減1 而已。
+
+
+這裡 dealoc的概念，是用一個list去紀録，被free出來的空間，有那些。
+
+
+這裡拿停車位，來講解fragment，蠻好的，當每台車停的間隔 參差不其，
+
+這時侯，如果能把車子擺放整其，間隔一致，就能弄出多一個空間，來放別台車子。
+
+每個free list的segment的結構是，有前二個word用來紀資料，第一個是紀録下一個segment的
+
+address，第二個word紀録 這個segment，有幾個free的word。
+
+heap 用static Array來存，很合理， memory是大家都能看到的，所 以很合理。
+
+
+6.6 Graphics :
+
+vector 跟 pixel Graphic 最大的差別在，當營木的解析度被放大，
+
+能否完整的呈現。
+
+這裡，他問了，如果只是單寫一個pixel ，為什麼不直接寫入就好了，還要整 個word拿出來，
+
+再寫進去，不能直接改那個bit 嗎，  不行 ，因為cpu的運作，就 是以word為單位，
+
+
+畫斜線，由左下往右上，pixel的填滿，是像只會往右往上走，線跟線之間 ，
+
+壘在一起。
+
+畫線很簡單，要想的就 是，下一步是要向右還是向上。
+
+
+Output:
+
+這裡講 ，每個字，在screen 上要怎麼表現出來， 每個字，會有個框框的大小，
+
+框框  高 11 pixel , 寬 8 pixel ， 要表示一個字 ，用 11個值來表示，
+
+怎麼說呢， 一個row 代表一個值，用個8 bits 的值，來表示，這個row ，那些bit 要反黑，
+
+
+Keyboard:
+
+keyboard 被按了某個鍵，值反應在 RAM[24576] 的這個行為， 是硬體 在做的，
+
+在軟體 要做的事，便是把這些值抓出來，  看各個值，也就 是acii 碼 對到什麼
+
+，像是字元，或是其它的換行 ...
+
+
+list to the keyboard
+keypress 是 real time operation . 現在值是什麼，就 輸出什麼
+     list
+
+gets a character
+readChar  :  這比較 特 別， 這處 理的情況，像是，   某個 key 一直被按著，
+
+             或者，使用者按了一個key 後 ，跑去做自已的事。
+
+              while ( keypressd() == 0 )
+
+              readChar 是用來反應，當有人按了keyboard，要做什麼處理。
+
+              要使用者，完成一個 pressed  release，才算輸入。
+
+
+String:
+
+3 的ascii 是 51 。
+
+setInt(): int to string
+intValue(): string to int
+
+突然有點了解，為什麼，資料的使用，前面要有型態的指定，
+
+一般一個word裡面的值，都是當成數來看，先來看int ，long ，這些 識別字，都是
+
+用來表示數的 ，  差別只在於，要讀入幾個word才能表示這些數。
+
+再來看， string 跟int ， string跟int 最大的差別，再於，word讀 出來那是多少，
+
+還要拿到ascii 表，去查，才能知道對應的字元是什麼。
+
+int 轉 char 其實想想，蠻簡單的， 數字0 在 ascii 是48 ，以此類推，
+
+return 回去的值，就 會是 48 ， 這會有問題 嗎？
+
+不會， 應該接的型態會是char or string，所 以os 知道，48這個值，不是看成integer，
+
+而是要放到 ascii table  去查，進而查出是 0.
+
+
+Array:
+
+陣列的實作，主要是在compiler ，那， 放在OS 這個章節，我能做些什麼呢？
+
+
+compiler 讀到function這個keyword ，它不會建symbol 。
+
+這裡要注意的一點就 是， 為什麼  沒有constructor ，而是有 Array.new
+
+這個function .
+
+
+Building the OS:
+
+聴 到一句英文， from the ground up.
+
+stub , reverser , perspective : 查一下解釋
+
+
+
+要開始寫，String.jack, 順序呢，我想依照，12.pdf裡面提到的jack來順序來寫：
+
+
+這裡，來想一下constructor中的this指， constructor function method，
+
+這是三種不同的宣告，差別在傳入的參數中， 有沒有要傳入，指向物件base address的this  ,
+
+通常會放在傳入的第一個參數，這感覺跟 python的 self 是很像的，
+
+除了，function宣告，不會用到this指標，其它都會用到，
+
+而Memory.alloc 這是在 constructor 內， 再轉成 vm code的時侯，
+
+會被實作，藉由 field 關鍵字，去推算，總共要多少的Memory空間，
+
+這部份，我之前講過， 一班內建的型態，只會佔一個word，那其它的物件，
+
+也是給一個word，為什麼，  因為這個word存的是它的base address。
+
+哎，這裡又有問題了， 傳入的this 是為了用它去給定下面的參數，
+
+最後的 return this; 是要給誰， 不return 有差嗎？
+
+我覺得 ，是可以不用這行 的，像java python也沒有， 這應該只是jack language ，
+
+在設計上的東西而已。
+  9    field int x, y; // screen location of the square's top-left corner
+ 10    field int size; // length of this square, in pixels
+ 11
+ 12    /** Constructs a new square with a given location and size. */
+ 13    constructor Square new(int Ax, int Ay, int Asize) {
+ 14       let x = Ax;
+ 15       let y = Ay;
+ 16       let size = Asize;
+ 17       do draw();
+ 18       return this;
+ 19    }
+
+
+這裡又看出一個東西，那就 是，下面的宣告是用 constructor ，那代表，
+
+一定有field 的關鍵字 ，是class 的資料， 如果沒有的話，
+
+就 會用 function 去宣告， 這種情況 ，就 像是  Array 就 是了.
+ 19     constructor String new(int maxLength) {
+ 20         let length = maxLength;
+ 21         return this;
+ 22     }
+
+
+這裡，就 如上所 說， method 關鍵字 會傳入this ，所 以body 裡面，
+
+可以直接用 this
+ 24     /** Disposes this string. */
+ 25     method void dispose() {
+ 26         do Memory.deAlloc(this);
+ 27         return;
+ 28     }
+
+這裡的body ，我寫 return length; ，但想想，如果改成 ，
+
+return this.length; 是不是也可以，有問題 的，可能是，
+
+compiler 有沒有實作而已
+
+ 30     /** Returns the current length of this string. */
+ 31     method int length() {
+ 32         return length;
+ 33     }
+
+
+好，這裡對字元有新的理解，
+
+var char c ;
+let c = 'a';
+let c = 56;
+
+我覺得 上面寫的， 都是可以過的， assign 給它數值 ，或者，
+
+利用單引號  直接給 指定的字元 ，
+
+或者給 值  ，讓 compiler 幫 你去查表。
+
+
+以下這段的 int2String，被視 為 是 method ,
+
+理應是，因為  int2String 前面沒帶 class name ，
+
+ 79     method void setInt(int val) {
+ 80         let str = int2String(val);
+ 81         return;
+ 82     }
+ 83
+ 84     function string int2String(int val) {
+
+Error message:
+In String.jack (line 80): In subroutine setInt: Function String.int2String called as a method
+
+
+
+今天在用vim ，做copy paste 的時侯，發現，用 shift + v 去copy 最後 面，
+
+會有一個類似空白的字元也被反白， 但這個，實際上不是空白字元，它是換行 字元，
+
+因為，你如果把剛 copy的東西，貼上去，會發現，會自已換行 ，就 是這個原因，
+
+而一個檔案的最後一行 ，也會有類似的字元，但這個應該 是檔案結束這元，
+
+而不是換行。
+
+
+
+
+以下這行 ， 這樣寫可以， 就是用output的物件。
+do output.appendChar( 45 );
+
+但 這樣也可以， 先決條件是，這是method 的宣告，有傳入this  指標才可以.
+do appendChar( 45 );
+
+
+
+以下，在81行 ，會發 生 ，compiler error ,
+
+首先， str 是物件沒錯 ，可以call它的function ，
+
+但要注意一點是， int2String是 method，它自已會帶入一個this 指標，
+
+=> this , val
+
+然而前面 str.int2String(val); 這裡多個str 物件， 會多帶 一個參數進去。
+
+除非現在是在外層，沒有this 指標在裡面。
+
+ 79     method void setInt(int val) {
+ 80         let length = 0;
+ 81         do str.int2String(val);
+ 82         return;
+ 83     }
+ 84
+ 85     method void int2String(int val) {
