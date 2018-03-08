@@ -349,3 +349,29 @@ do appendChar( 45 );
  83     }
  84
  85     method void int2String(int val) {
+
+
+Memory.jack:
+
+原來對Memory 的控制，就是用 Array而已 ，
+
+    static Array memory;
+    let memory = 0;
+
+這樣就好了， 接下來，要想想的，就 是， 在vm file，裡面，
+
+是用什麼，去 alloc memory.
+
+突然想到，這八個基本的class ，是os 開始的時侯，會要去執 行 的 ，
+
+那為什麼有的，有constructor ，有的沒有呢？
+
+像 Memory 有constructor ,  是init () ;
+
+而 Array 卻是 function , new () ；
+
+這可以從開機流程來看， 最一開始執 行 的程式叫init() ，
+
+這理應會燒在ROM裡面， 而這個程式，理應就 是寫，去執 行 所 有class內的init()，
+
+
