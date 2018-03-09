@@ -111,28 +111,9 @@ class Keyboard {
      */
     function int readInt(String message) {
         var String str;
-        var char c;
-        var boolean ok;
     
-        let ok = false;
-        let c = 0;
         let str = String.new(100);
-
-        do Output.printString(message);
-
-	while ( ~ok ) {
-	    let c = Keyboard.readChar();
-
-            if ( (c < 128 ) & (c > 31 )  ) {
-                let str = str.appendChar(c);
-            }
-
-            if ( c = 129 ) { 
-                do str.eraseLastChar();
-		//do Output.backSpace();
-            }
-            if ( c = 128 ) { let ok = true;}
-	}
+        let str = Keyboard.readLine(message);
 
         return str.intValue();
         
