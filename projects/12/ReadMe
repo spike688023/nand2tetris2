@@ -375,3 +375,38 @@ Memory.jack:
 這理應會燒在ROM裡面， 而這個程式，理應就 是寫，去執 行 所 有class內的init()，
 
 
+Keyboard.jack
+
+Output.jack
+
+突然想到， 整個screen 是 256 x 512 pixel ,
+
+256個 row 乘上  512 個 pixel,  每16 個 pixel , 用一個16 bit 的memory去記，
+
+但，字的寬度是 8 bit 哎。
+
+
+原來， 要判斷一個值，除以2 後 ，餘數 是1 還是0 ，直接對 , 最小的bit 做and ,
+
+看之後的值，是不是1 ，就可以了.
+let mask = cursor_x & 1;
+
+這裡，我就 覺得 奇怪 ， 明明指標，就沒有定在 0,0 的位置 ，
+
+怎麼，作者跑出來的，在左上角，會有 字元 A ，原來是 printChar，
+
+這個function ， 原來在印了以後， 還要再 往前一個單位，
+
+所以跑到最前頭 ，但這裡是要自已做判斷 ，超過24575 ，就 要回到16384。
+ 21         do Output.moveCursor(22, 63);
+ 22         do Output.printChar(68);
+ 23         do Output.printChar(65);
+
+感覺 加減乘除 的一些比對， 可以把腦子都轉 成二進位去想, 會讓以後寫code，
+
+變的很有效緑。
+
+Memory.peek(location) +  map[index]
+= > Memory.peek(location) |  map[index]
+
+可以的麻。
