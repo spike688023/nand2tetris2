@@ -410,3 +410,317 @@ Memory.peek(location) +  map[index]
 = > Memory.peek(location) |  map[index]
 
 可以的麻。
+
+
+Memory.jack :
+
+雖然知道， memory是被當成一整 個的array來看，有點忘了，在vm 那層，
+
+存取某個 memory address的值，指令有那些。
+
+想到了，this 指標是用來指向 object 的base address，
+
+而that 則是用來抓取某個address 的值。
+
+ 13     static Array memory;
+ 21     /** Returns the RAM value at the given address. */
+ 22     function int peek(int address) {
+ 23         return memory[address];
+ 24     }
+
+  6 function Memory.peek 0
+  7 push argument 0
+  8 push static 0
+  9 add
+ 10 pop pointer 1
+ 11 push that 0
+ 12 return
+
+好了，拿以上二個，來做對比，
+
+因為static 的相關變數只有一個，所以，它理應是被放到 static 0 的位置 ，
+
+7 8 9行 是為了算出 memory[address] 的位置 ，
+
+pointer 0 是this 指標
+
+pointer 1 是that 指標
+
+10 pop pointer 1 ; 這行 是為了把address 放到that 指標，
+
+最重要的一行 來了，
+
+push that 0 ; 首先，要知道，push 是把某個位置的值，放到 stack中，讓 後面去做運算，
+
+              that 0； 是指， that 指標所 指的位置  ，加上offset 0 ，的位置
+
+              這個值，放到stack 中。
+
+
+
+開始實作前，有個問題 ，stack pointer 從  256 開始，
+
+這裡不知道的是，heap base address 是從那裡開始。
+
+應該 就 是在以下二組數之間。
+
+2048 and 16384
+
+heap base ： 2048
+length: 14335
+
+Problem:
+submit時，發生error :
+'That' segment must be in the Heap or Screen
+
+solve:
+Steven Green · 10 months ago
+I worked it out! In Sys.Jack I was calling Math.init before Memory.init. But Math.init calls Memory.alloc, so I must call Memory.init first!
+
+Yay - I can sleep now!
+
+
+好了， 看完，它有寫的內容，但有個問題 ，每個 segment 都存指標，指向下一個，
+
+但沒有存segment 的base address ， 他要怎麼回傳呢。
+
+想想，如果我自已實作的話， 不會有link list , 就用Array，存，
+
+哎， 想想不行 哎， 任何function 有new 空間，都會用到Memory alloc ,
+
+這時侯，如果是在實作，就 不用這樣了。
+
+如果真的是用，link list，那就會用到 peek poke了，
+
+一個segment 的結構， offset 0 是紀下一個segment 的位置 ，
+
+有一個變數，能用來記，當下這個segment 的 base address ， 用以去推算，
+
+以下的各個address , 配memory都是從 ，最下面的開始拿。
+
+等一下， 又有一個問題 ， 配的memory 空間， 要否含 next address , 及size ,
+
+要。
+
+要一個連續的空間，要用到 Memory.alloc  ， 又有一個問題 ，
+
+一班的，變數宣告，不也會用到空間嗎？
+
+不會沖到嗎？
+ 17     function Array new(int size) {
+ 18         return Memory.alloc(size);
+ 19     }
+
+來看一下，首先， local 跟parameter ，會在進入一個function時，
+
+給 定這些變數， 所以不care  , object 變數，比較 care.
+
+  1 class Apple{
+  2
+  3    field int x, y; // screen location of the square's top-left corner
+  4    field int size; // length of this square, in pixels
+  5    field int memAddress;
+  6    field int location;
+  7
+  8    /** Constructs a new square with a given location and size. */
+  9    constructor Apple new(int Ax, int Ay, int Asize) {
+ 10       let x = Ax;
+ 11       let y = Ay;
+ 12       let size = Asize;
+ 13       let memAddress = 0;
+ 14       let location = 0;
+ 15       do draw();
+ 16       return this;
+ 17    }
+
+下面來看看，物件的初始，在vm 那層是如何給的？
+
+  1 function Apple.new 0
+  2 push constant 5
+  3 call Memory.alloc 1
+  4 pop pointer 0
+  5 push argument 0
+  6 pop this 0
+  7 push argument 1
+  8 pop this 1
+  9 push argument 2
+ 10 pop this 2
+ 11 push constant 0
+ 12 pop this 3
+ 13 push constant 0
+ 14 pop this 4
+ 15 push pointer 0
+ 16 call Apple.draw 1
+ 17 pop temp 0
+ 18 push pointer 0
+ 19 return
+
+只先看2,3 行 push constant 5 是，因為這個物件要5個空間，
+
+  3 call Memory.alloc 1 這行的話，大多不會變，因為只吃一個參數，
+
+這裡的 Memory.alloc 應該 就 是目前，我們要實作的部份，
+
+但在 Memory.jack中，也是有用到 object 的東西， 這裡有點，雞生蛋，
+
+蛋生雞的感覺， Array.jack的實作 ，雖然很簡單，但也是要用到 Memory.jack
+
+, 可想而知， Memory.jack 在Sys.jack中， 一定是第一個被call 的 init function .
+
+喔， 所以在，Memory的實作中， 不能用到 field， 也不能用到 會配連續空間的Array,
+
+所以，Memory的實作， 除了 local parameter 以外，只能用到 static ，
+
+應該 差不多了， 來想一下，要怎麼實作，
+
+memory[2048] 這用來當 nextnodeAddr = -1;
+
+memory[2049]  這用來存 length , 而 2050 ~ 16384 就是一開始全部可以配的heap 空間，
+
+一開始就是一塊，連續可以存取的空間。
+
+先用想的，想一下情況，等下才會做的出來，
+
+如果現在，要拿 5 的連續空間， 如何做到，拿走這5 的連續空間，
+
+原先的那塊大的，還是能保持連續 ，從最後 面開始拿，
+
+要size = 5 , 實際上，是會拿走 7 ，因為含 addr and size ，
+
+還要再做一件事，就是，原先最大的那塊空間，其 size 要記得 減7 ，
+
+此時，如果有圖可以看，free list ， 跟deAlloc list 分別有一個node。
+
+再來一個情況想想，現在要把剛剛拿的size = 5 的空間還回去，
+
+要怎麼還，目前deAlloc list 只有一個，所以 在找的方面，是不花時間的，
+
+已經找到了，
+
+讓 free list的頭，指向這個segment ， 再讓這個segment指向  原本free list指向的segment，
+
+這樣加上去，就 是 O(1) ,
+
+這樣就 可以理解 ，什麼叫fragment， 當OS 使用久了以後  ，
+
+free list 就會變的很長，而且，每塊的空間，是無法評估， 當使用者，突然要求一塊大的空間，
+
+那要怎麼辦 ， 每一塊free 的空間， 都掃過了，沒有一塊符合要求，
+
+此時要做的事，就是所謂的 recycle ，讓free list 跟 deAlloc list做重新整理，
+
+以便，能空出更大的空間，來讓使用者使用，
+
+如何做到？
+
+把用的空間，都放到 下面，  free 的空間集中到上面， 講起來簡單，
+
+但實際 怎麼做，還不清楚  ，
+
+這裡又想一個東西，如果，recycle 後，那個free空間，還是不足以達到使用者的要求，
+
+那要怎麼辦 ， 把deAlloc list中的 segment , 先拿到 硬 碟空間去放，
+
+這個行 為，就 是content switch.
+
+為了要方便管理這二個不同的list，我打算 把 memory 2048 用來當做 free list 的頭 ，
+
+2049 拿來當 deAlloc 的頭 。
+
+如此設定， memory[2048] = 2051
+           而memory[2052] = length = 16384 - 2052   ;
+           memory[2051] = -1 ; 為什麼，因為它後面沒有free 的block了。
+
+
+segment 中的size ，是含有 address 以及 length 這二個words ，
+
+而使用alloc(n) 的n 是沒有的 ，所 以 ，去比對，那個block 是可以的，
+
+還要多加2 ，因為這二個參數換到不同的list 可能也會用的到，
+
+這裡感覺又會有個新問題 ，
+
+這裡來假設 一個問題 ， 如果目前有個 block 的length 是 7 ，
+
+而alloc(5)  , 也就 是5 + 2 是我要的實際空間，  遇到這個剛好大小的，
+
+我就 整 個拿走， 再把上個指標的內容，改成指向，下一個segment，
+
+再來想想喔， 如果現在給 的alloc(4) , 4 + 2 = 6 ， 這樣 7 的空間，能給它嗎？
+
+
+如果給 了，剩下的空間1 ， 能做什麼， 要怎麼跟其它segment 串在一起，
+
+剩二也不行 ，  至少要剩下3， 也就 是 addr , size , 1 ，總 共三個words，
+
+那差距1 ，2 的情況，要怎麼辦, 我想呢， 一併也配給它好了。
+
+剛看了一下， Memory 的 test Main.jack，只能用來測試 ，有沒有配到空間，
+
+deAlloc 的話，無從 test .
+
+我上面的差距1 2 , 我覺得 不用看那麼細,  這情況不好遇到,
+
+作者，其實只要看，你能不能配給 他要的空間給 他用而已。
+
+
+=================================================================================
+Problem :
+
+突然想到一個，之前 提姆哥問的問題 ， 就是 用指標跟 Array, 那一種 抓資 料比較 快？
+
+
+solve:
+
+=================================================================================
+
+
+突然看懂一個東西：
+
+static Array memory;
+let memory = 0;
+
+上面二行 ，這是什麼東西，就 是一個為Array 變數的 memory， 指向的memory空間為0，
+
+因為沒有呼叫  Array.new() , 去回傳address 給memory，而memory這個變數， 其實，
+
+把它看成一個int 的指標，它是用來指向，真正配到的記憶體 空間。
+
+所 以，除了內建的資料型態，不是用指標去管理的以外，其它任何資料型態，都是。
+
+
+喔，幹  可以這樣，
+let base = 2048;
+let memory[length] = max - base;
+let memory[nextNode] = endOfList;
+
+init() 裡的初始化，不是無意義 的， 而是 把base address 給 成 0 ，
+
+之前在 [] 內給 offset 的值， 去直接存取memory中的值，
+
+那Array memory ， 這個宣告，是為了把memory變數，當成一個base address 的指標，
+
+而不是一班 的 整數，所以才宣告成Array ,  這樣也不會有問題 ，為什麼呢？
+
+因為  Memory.jack內，並沒有call 到.
+
+
+這裡，即便， 回傳的int 改成 Array也是可以，
+
+回傳都是個word ，差別只是，會把那個word ，當成int ，還是當成指標去看而已。
+ 37     function int alloc(int size) {
+ 38         return 0;
+ 39     }
+
+
+Problem:
+
+*(-17) - ArrayTest test failure - Nowhere to return to in Sys.init.14
+*(-17) - MathTest test failure - Comparison failure at line 2
+*(-17) - MemoryTest test failure - Nowhere to return to in Sys.init.14
+
+Solve:
+
+Sys.init shouldn't return. You need to call sys.halt at the end of sys.init.
+
+This point is missing in the lectures, and will be fixed.
