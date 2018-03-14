@@ -724,3 +724,129 @@ Solve:
 Sys.init shouldn't return. You need to call sys.halt at the end of sys.init.
 
 This point is missing in the lectures, and will be fixed.
+
+
+Screen.jack:
+
+原來， 要實作的，只有 線， 方型，圓型，這三個function而已，
+
+方型跟線，可以分開實作， 因為線是有直線 跟斜線 ，而方型裡面，只有直線 ，
+
+不用特別判斷斜線 ， 就 不要浪費 時間，去看那個。
+
+Problem:
+
+這段在compile 會有錯，
+
+'That' segment must be in the Heap or Screen range in Screen.init 22
+
+ 24         let temp = 1;
+ 25         let count = 0;
+ 26         while ( count < 16 ) {
+ 27             let value[count] = temp;
+ 28             let temp = temp + temp;
+ 29             let count = count + 1;
+ 30         }
+
+Solve:
+
+意思大概就是， 選定的位置 ，超出範圍的意思，
+
+來看一下， 16 bits = 0 ~ 15 ， 上面的初始化，問題是，這個int 是 整數，
+
+不是正整數 ，最後一個index 15 的值，是負數，不是 正整數，
+
+所以超出限制了，
+
+使用 BitmapEditor.html  ，可以得 知，第15 bit 的值是  -32768
+，
+14 bit 是 16384.
+
+所以，以上壘加的方式， 只能用到14 bit.
+
+丫，這裡又看到一個問題了，
+do Memory.poke(memAddress+0, -32768);
+
+static Array value;
+value[15] = -32768
+
+這會有個問題，compile會有error  ,
+
+說給 這個值太大了， 為什麼呢，
+
+明明就 poke function 給 這個值就可以，int 也可以容的下，
+
+為什麼compile 會有error ，這就 要來看宣告的Array了，
+
+value 被宣告成一個Array，但這裡的Array 是一連串的word空間，
+
+拿來幹 麻的呢， 當整 數嗎？
+
+不是， 是拿來當位置 的， 所 以，它不能拿來放，超 過memory空間大小。
+
+
+看到以的初始化，覺得 很酷，
+
+之前學的，是把 var Array test ; 的test 當成指標來用。
+
+    static int powers_of_two;
+
+    /** Initializes the library. */
+    function void init() {
+        let powers_of_two = Array.new(16);
+        let powers_of_two[0] = 1;
+        let powers_of_two[1] = 2;
+        let powers_of_two[2] = 4;
+        let powers_of_two[3] = 8;
+        let powers_of_two[4] = 16;
+        let powers_of_two[5] = 32;
+        let powers_of_two[6] = 64;
+        let powers_of_two[7] = 128;
+        let powers_of_two[8] = 256;
+        let powers_of_two[9] = 512;
+        let powers_of_two[10] = 1024;
+        let powers_of_two[11] = 2048;
+        let powers_of_two[12] = 4096;
+        let powers_of_two[13] = 8192;
+        let powers_of_two[14] = 16384;
+        let powers_of_two[15] = 16384+16384;
+        return;
+    }
+
+這裡之所 以這樣寫， 我想，
+
+是因為  static int powers_of_two; 這行 ， 如果改成 static Array powers_of_two ,
+
+會有問題 ， 指標會超過，RAM最大範圍，但這裡的
+
+let powers_of_two[15] = 16384+16384;  不直接給值，而是用加的，有什麼用意嗎？
+
+宣告的 static int powers_of_two ，好像是有用的，把 *(powers_of_two + 15 ) 的值，
+
+看成 整 數。
+
+
+奇怪了， 分成二個用減的， compile 可以過，一個就 不行 ， 是怎麼回事。
+ 67         //let test = -16384 - 16384;
+ 68         let test = -32768;
+
+
+這種給 法，是把不經過Memory.alloc ，自已指定memory的位置，
+
+一班很少這麼用， 那是因為，這裡知道位罝。
+ 60         var Array memory;
+ 61         let memory = 16384;
+
+
+對於中框號 的存取，  test[i] , 以後 都要看成是base + index 的概念，
+
+會比較 直接一點。
+
+
+這行  很酷 ， 用and 來抓一個值的餘數。
+let whichbit = x & 15;
+
+
+畫斜線 的問題 ，似乎， 要考慮，左斜 ，右斜之類 的。
+
+
