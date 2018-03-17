@@ -14,6 +14,7 @@ class Screen {
     static int row, column;
     static boolean black;
     static int value;
+    static Array memory;
 
     /** Initializes the Screen. */
     function void init() {
@@ -24,6 +25,8 @@ class Screen {
         let black = true;
         let temp = 1;
         let count = 0;
+        let memory = 16384;
+
         while ( count < 16 ) {
             let value[count] = temp;
             let temp = temp + temp;
@@ -35,12 +38,12 @@ class Screen {
 
     /** Erases the entire screen. */
     function void clearScreen() {
-        var Array memory;
-        let memory = 16384;
+        var int count;
+        let count = 0;
         // 16384 ~ 24575
         while ( memory < 24576 ) {
-            let memory[0] = 0;
-            let memory = memory + 1;
+            let memory[count] = 0;
+            let count = count + 1;
         }
         return;
     }
@@ -57,49 +60,86 @@ class Screen {
         // a 23-by-64 characters grid, 23 rows of 64 char, row start from 0
         // 256 * 512 pixels
         // need to get which memory word, every 32 word in a row
-        var Array memory;
-        let memory = 16384;
-        var int location, whichbit, test;
-        let whichbit = y - ( 16 * (y / 16) );
-        let location = (x * 32) + (y / 16);
-
-        let test = -16384 - 16384;
-        //let test = -32768;
+        var int location, whichbit;
+        let whichbit = x & 15;
+        let location = (y * 32) + (x / 16);
 
         if ( black ) {
                 let memory[location] = memory[location] | value[whichbit];
         }else {
-                let memory[location] = memory[location] | ~(value[whichbit]);
+                let memory[location] = memory[location] & ~(value[whichbit]);
         }
         return;
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
-        var int dx, dy, a, b;
+        var int dx, dy, a, b, diff, positive, temp;
         let a = 0;
         let b = 0;
-        let dx = x2 - x1 + 1;
-        let dy = y2 - y1 + 1;
+        let diff = 0;
+        let positive = 1;
+        let temp = 0;
 
-        while ( (a < dx) & (b < dy) ) {
-            do Screen.drawPixel( x1+a , y1+b );
-            if ( (b/a) > (dy/dx) ) {
-                let a = a + 1;
-            }else {
-                let b = b + 1;
-            }
+        if ( x2 < x1 ) {
+            let temp = x1;
+            let x1 = x2;
+            let x2 = temp;
+            let temp = y1;
+            let y1 = y2;
+            let y2 = temp;
         }
+
+
+        let dx = (x2 - x1);
+        let dy = (y2 - y1);
+        if ( (dx * dy) < 0) {
+            let positive = -1;
+        }
+
+        // Diagonal line
+        if ( ~( (y2 - y1) = 0) & ~( (x2 - x1) = 0) ) {
+          while ( ~(a = dx) & ~(b = dy) ) {
+              do Screen.drawPixel( x1+a , y1+b );
+              let diff = (b*dx) - (a*dy);
+	            if ( positive*diff < 0 ) {
+		              let b = b + positive;
+	            }else {
+		              let a = a + 1;
+	            }
+          }
+        }
+
+        // horizontal
+        if ( (y2 - y1) = 0 ) {
+          while ( a < dx ) {
+              do Screen.drawPixel( x1+a , y1 );
+              let a = a + 1;
+          }
+        }
+
+        // vertical
+        if ( (x2 - x1) = 0 ) {
+          while ( b < dy ) {
+              do Screen.drawPixel( x1 , y1+b );
+              let b = b + 1;
+          }
+          while ( b > dy ) {
+              do Screen.drawPixel( x1 , y1+b );
+              let b = b - 1;
+          }
+        }
+
         return;
     }
 
     /** Draws a filled rectangle whose top left corner is (x1, y1)
      * and bottom right corner is (x2,y2), using the current color. */
     function void drawRectangle(int x1, int y1, int x2, int y2) {
-        var int dy, b;
-        let dy = y2 - y1 + 1;
-        let b = 0;
-        while ( b < dy ) {
+        var int dy, b, bottom;
+        let b = y1;
+        let bottom = y2 + 1;
+        while ( b < bottom ) {
             do Screen.drawLine( x1, b , x2, b);
             let b = b + 1;
         }
@@ -108,6 +148,18 @@ class Screen {
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
+        var int dy, diff, up, doubleR, horizon;
+        let dy = -r;
+        let diff = 0;
+        let doubleR = r*r;
+        let horizon = 0;
+
+        while ( dy < r) {
+            let diff = Math.sqrt( doubleR - (dy*dy) );
+            let horizon = y + dy;
+            do Screen.drawLine( x-diff , horizon, x+diff , horizon);
+            let dy = dy + 1;
+        }
         return;
     }
 }

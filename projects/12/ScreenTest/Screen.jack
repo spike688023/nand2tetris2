@@ -74,9 +74,13 @@ class Screen {
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
-        var int dx, dy, a, b, diff, positive, temp;
+        var int dx, dy, a, b, diff, positive, temp, headvalue, headindex, tailvalue, tailindex, small;
+        var int left;
+        let small = 0;
         let a = 0;
         let b = 0;
+        let headvalue = 0;
+        let tailvalue = 0;
         let diff = 0;
         let positive = 1;
         let temp = 0;
@@ -90,6 +94,9 @@ class Screen {
             let y2 = temp;
         }
 
+        let headindex = (y1 * 32) + (x1 / 16);
+        let tailindex = (y2 * 32) + (x2 / 16);
+        let left = headindex + 1;
 
         let dx = (x2 - x1);
         let dy = (y2 - y1);
@@ -110,13 +117,59 @@ class Screen {
           }
         }
 
-        // horizontal
-        if ( (y2 - y1) = 0 ) {
-          while ( a < dx ) {
-              do Screen.drawPixel( x1+a , y1 );
-              let a = a + 1;
-          }
-        }
+       // catch headvalue
+       let temp = x1 & 15;
+       while ( temp < 16) {
+           let headvalue = headvalue + value[temp];
+           let temp = temp + 1;
+       }
+
+       // catch tailvalue
+       let temp = x2 & 15;
+       while ( temp > -1) {
+           let tailvalue = tailvalue + value[temp];
+           let temp = temp - 1;
+       }
+
+       if ( headindex = tailindex ) {
+           let temp = x1 & 15;
+           while ( temp < ((x2 & 15)+1) ) {
+               let small = small + value[temp];
+               let temp = temp + 1;
+           }
+           if ( black ) {
+	             let memory[ headindex ] = memory[ headindex ] | small;
+           }else {
+	             let memory[ headindex ] = ~small & memory[ headindex ];
+           }
+       }
+
+       // horizontal improve
+       if ( ( (y2 - y1) = 0) & ( (tailindex - headindex) > 0 )) {
+           // head block
+           if ( black ) {
+	             let memory[ headindex ] = memory[ headindex ] | headvalue;
+           }else {
+	             let memory[ headindex ] = ~headvalue & memory[ headindex ];
+           }
+
+           //body
+           while ( left < tailindex ) {
+               if ( black ) {
+                   let memory[ left ] = -1;
+               }else {
+                   let memory[ left ] = 0;
+               }
+               let left = left + 1;
+           }
+
+           // tail block
+           if ( black ) {
+	             let memory[ tailindex ] =  tailvalue | memory[ tailindex ] ;
+           }else {
+	             let memory[ tailindex ] = ~tailvalue | memory[ tailindex ] ;
+           }
+       }
 
         // vertical
         if ( (x2 - x1) = 0 ) {
@@ -148,7 +201,7 @@ class Screen {
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
-        var int dy, diff, up, doubleR, horizon;
+        var int dy, diff, doubleR, horizon;
         let dy = -r;
         let diff = 0;
         let doubleR = r*r;

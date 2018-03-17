@@ -850,3 +850,19 @@ let whichbit = x & 15;
 畫斜線 的問題 ，似乎， 要考慮，左斜 ，右斜之類 的。
 
 
+Screen 優化完了， 但有很多小細節要修，
+
+畫直線 ，有三種case :
+
+case 1:
+像是 頭跟尾的block 是在同個memory
+
+case2 :
+
+正常情況，頭尾在不同block ，中間還有body ,  值都給 -1
+
+case 3:
+
+頭 尾在不同block ，但相隣
+
+
