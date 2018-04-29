@@ -73,7 +73,7 @@ im = im * c
 =>  *(this + 1 ) = *(this +1 ) times (argument 0)
 
 
-this 指標，用來指向 object的base address，
+this 指標，用來指向 object的base address，(arugment  跟 local則是在進入function後，指向其base addr的指標)
 
 假設 this 的index 2  是存這個物件的 radius ，要如何更改這個值呢，
 
@@ -86,6 +86,10 @@ this 指標，用來指向 object的base address，
 再來想一下，static的變數，之前在實作時，因為static 在各個class中，是唯一的，
 
 所以在變數的取名，會在前面加個className ， 當時這裡的實作， 就有點symbol table的感覺了.
+
+所以一個function在執行的時侯，最重要的是，它的 argument , local , this 三個指標，
+
+這裡的this 指的是， 物件呼叫某function， this是用來指向那個物件的。
 
 method calls:
 
@@ -116,6 +120,7 @@ bar =  new int(n)
 
 =>  bar =  Memory.alloc(n)
 
+一個變數的宣告，是由memory allcation傳回 base addr ，
 
 Handling arrays: accessing an array entry by its index
 
@@ -130,6 +135,10 @@ How to compile bark[k] = 19
 主要呢， 指向 *( bar + k ) 這個位置 是用 that 這個指標。
 
 其它的概念就 沒什麼變了。
+
+因為其它指標，要指向最原始的位置 ，不能亂了， that 用來存，bar + k 的值，
+
+讓之後要放入的值， 可以知道要放那裡.
 
 Handling expressions:
 
@@ -190,6 +199,15 @@ function void printInt(int i):  好，只有一個參數。
 
 就會是index 4 的address了。
 
+所以symbol table是很多張，像是class 一張 , main function , other funciton一張，
+
+我記得 ，我當初是用字典去紀録的，每張表的名字，用其所在的class 含其目前的function name，
+
+去組建它的表出來。
+
+我以前symbol table內，都存些什麼？
+
+每個變數的index ,  變數型態大小。
 
 雖然，symbolTables 會是一個list的 table，而且，只能看自已那一張，
 
@@ -214,6 +232,12 @@ local 跟 sp 一開始都會指向同一個 memory address，
 
 而 argument  的指標會在 sp address 的前面，
 
+這裡的概念應該是，三個一開始都指在同個位置，一開始推參數時，
+
+local 跟 sp 會前進，推完換，推local 變數後 ， local停下來指向base，
+
+所以前進的，只有sp .
+
 所 以  function name 2  , 最後 的一個參數，代表的是，這個function  會用到幾個，
 
 local variable.
@@ -237,6 +261,49 @@ project 8 的，很多程 式， 會先把要的值，放到指定的位置 ，
 填值進去， 要怎麼做， 把要放進去的值，push  到 stack 中，
 
 再pop 回去要的memroy segment .
+
+這裡的意思是，假設現在一個function  裡面宣告了，
+int a = 0;
+
+int b = 1;
+
+要怎麼把值，丟到這個local variable中，
+
+push constant 0
+push constant 0
+push local
+add
+pop that
+pop that 0
+
+最後 二行 的正確性有點忘了，但用意是把 計算出來的 a 變數位置 ，
+
+放到 that 指標，最後 再把右式的常數0,  pop 到 that + 0 的位置 。
+
+也就是funciton 堆疊中， local 0 的位置 。
+
+這樣我的記憶就想起來了， 一個function call 中， parameters 放到 stack中，
+
+都是call by value， 其本型態的變數，就放一個word，其它較 大的話，
+
+就是放指標，為了不浪費時間以及空間，放完parameter後 ，
+
+接下來就是放 local varible了， 怎麼放呢？  到symbol table中，
+
+去查詢，型態是local的變數有誰，從 index 0 開始，依所以大小，放置相對的空間給它們，
+
+因為在function body等下會用到它們。
+
+
+觀念又起來了， 所以， 會放在  初始化，跟未初化block 資料的，只有 static
+
+global ，以及 main funciton 的parameters 跟local 變數，這些沒有算在stack 跟heap中，
+
+是在compiler time 先配給的，而程式在跑的時侯，就是不斷的運算這些值，
+
+把它們放到 function 中，又或者，呼叫某些function，去計算要的值出來，放到stack 中，
+
+等下用來return .
 
 
 看project 8  pdf 檔的 第17頁， 可以知道，在stack pointer 的memroy中，
